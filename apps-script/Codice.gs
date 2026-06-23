@@ -169,7 +169,7 @@ function _circleMembriRecenti(cfg, cutoff) {
   var cutoffMs = cutoff.getTime();
 
   while (true) {
-    var url = 'https://app.circle.so/api/v1/space_members'
+    var url = 'https://app.circle.so/api/admin/v2/space_members'
             + '?space_id=' + encodeURIComponent(cfg.CIRCLE_SPACE_ID)
             + '&per_page=100'
             + '&page=' + page;
@@ -191,25 +191,24 @@ function _circleMembriRecenti(cfg, cutoff) {
   return out;
 }
 
-// Chiamata a Circle che prova prima "Token", poi "Bearer" (a seconda del tipo di token)
+// Chiamata a Circle (Admin API v2, autenticazione Bearer)
 function _circleGet(cfg, url) {
-  var schemi = ['Token ', 'Bearer '];
-  for (var i = 0; i < schemi.length; i++) {
-    var resp = UrlFetchApp.fetch(url, {
-      method: 'get',
-      muteHttpExceptions: true,
-      headers: { 'Authorization': schemi[i] + cfg.CIRCLE_API_TOKEN }
-    });
-    var code = resp.getResponseCode();
-    if (code >= 200 && code < 300) {
-      try { return JSON.parse(resp.getContentText()); } catch (e) { return null; }
-    }
-    if (code === 401 || code === 403) continue; // token non accettato con questo schema: prova l'altro
-    Logger.log('Circle HTTP ' + code + ' su ' + url + '\n' + resp.getContentText().slice(0, 300));
+  var resp = UrlFetchApp.fetch(url, {
+    method: 'get',
+    muteHttpExceptions: true,
+    headers: { 'Authorization': 'Bearer ' + cfg.CIRCLE_API_TOKEN }
+  });
+  var code = resp.getResponseCode();
+  var body = resp.getContentText();
+  var data = null;
+  try { data = JSON.parse(body); } catch (e) { data = null; }
+
+  // Circle a volte risponde 200 anche con un errore { status, message }: gestiamolo
+  if (!data || (data.status && data.message && !data.records)) {
+    Logger.log('Circle errore su ' + url + ' → ' + body.slice(0, 200));
     return null;
   }
-  Logger.log('Circle: autenticazione fallita con entrambi gli schemi (Token e Bearer).');
-  return null;
+  return data;
 }
 
 // =============================================================
@@ -289,7 +288,7 @@ function testConnessione() {
 
   // Circle
   var c = _circleGet(cfg,
-    'https://app.circle.so/api/v1/space_members?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1');
+    'https://app.circle.so/api/admin/v2/space_members?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1');
   Logger.log('Circle risponde? ' + (c && c.records ? 'SÌ ✅ (membri nello spazio: ' + (c.count != null ? c.count : '?') + ')' : 'NO ❌ (controlla il token)'));
 
   // ActiveCampaign
