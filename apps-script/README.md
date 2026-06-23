@@ -4,8 +4,10 @@ Script per Google Apps Script che ogni 24 ore:
 
 1. legge chi è entrato nello spazio **Digital Step** su Circle;
 2. cerca la stessa email su **ActiveCampaign**;
-3. se la trova, aggiunge una riga al foglio Google con
-   **CheckGiorno | Nome | Cognome | Telefono**.
+3. se la trova, aggiunge una riga al foglio Google "Risultati" con
+   **Data_Check | Nome | Cognome | Email | Telefono**
+   (stesso formato dei dati che hai già). Non crea doppioni: salta chi è già
+   presente nel foglio controllando l'email.
 
 ## Perché prima "mancavano" dei contatti
 
@@ -27,7 +29,7 @@ inseriti, quindi **non scrive mai due volte** la stessa persona.
    | `AC_API_URL` | l'URL del tuo account, es. `https://tuoaccount.api-us1.com` |
    | `AC_API_KEY` | l'Api-Token di ActiveCampaign |
    | `SHEET_ID` | l'ID del foglio Google (sta nell'URL del foglio) |
-   | `SHEET_NAME` | il nome della scheda, es. `Foglio1` |
+   | `SHEET_NAME` | il nome della scheda, es. `Risultati` |
 
 2. Esegui una volta **`testConnessione`** e guarda i log
    (menu **Esecuzioni** / **Visualizza → Log**): devono comparire i totali di

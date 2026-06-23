@@ -3,59 +3,60 @@
  * ------------------------------------------------------------
  * Ogni giorno controlla chi è entrato nello spazio "Digital Step" su Circle,
  * cerca la stessa email su ActiveCampaign e, se la trova, aggiunge una riga
- * al foglio con: CheckGiorno | Nome | Cognome | Telefono.
+ * al foglio "Risultati" con: Data_Check | Nome | Cognome | Email | Telefono.
  *
- * Logica anti-buco e anti-duplicati:
- *  - WATERMARK: salva la data dell'ultimo membro processato. Ad ogni run
- *    processa TUTTO ciò che è entrato dopo il segnalibro. Se un giorno il
- *    trigger salta, il giorno dopo recupera comunque gli arretrati.
- *  - SEEN_IDS: tiene l'elenco degli ID già inseriti, così non scrive mai
- *    due volte la stessa persona (nemmeno al confine della finestra).
+ * Come evita i problemi di prima:
+ *  - FINESTRA INTELLIGENTE: non guarda solo "ultime 24 ore". Calcola quanto
+ *    tempo è passato dall'ultima esecuzione e guarda indietro abbastanza da
+ *    non perdere nessuno, anche se un giorno il trigger non parte. C'è sempre
+ *    un margine di sicurezza di qualche giorno.
+ *  - NIENTE DOPPIONI: prima di scrivere controlla le email già presenti nel
+ *    foglio. Se una persona c'è già, la salta.
  *
- * Funzioni che ti interessano (menu a tendina in alto in Apps Script):
- *  - installaTriggerGiornaliero()  → installa il trigger automatico (una volta)
- *  - aggiornaDigitalStep()         → il lavoro vero (lo chiama il trigger)
- *  - test_DryRun()                 → SIMULA senza scrivere nulla: per verificare
- *  - backfill(giorni)              → recupera gli arretrati degli ultimi N giorni
+ * Funzioni che ti interessano (le selezioni in alto e premi "Esegui"):
  *  - testConnessione()             → verifica che le chiavi API funzionino
+ *  - test_DryRun()                 → SIMULA senza scrivere nulla: per controllare
+ *  - backfill(giorni)              → recupera gli arretrati degli ultimi N giorni
+ *  - installaTriggerGiornaliero()  → accende l'automatismo quotidiano
+ *  - aggiornaDigitalStep()         → il lavoro vero (lo chiama il trigger)
  * ------------------------------------------------------------
  */
 
 // =============================================================
-//  CONFIGURAZIONE
-//  Imposta i valori in: Apps Script → Impostazioni progetto →
-//  "Proprietà script" (Script Properties). NON scrivere le chiavi qui.
+//  CONFIGURAZIONE (letta dalle "Proprietà script")
 // =============================================================
 function _config() {
   var p = PropertiesService.getScriptProperties();
   return {
-    CIRCLE_API_TOKEN: p.getProperty('CIRCLE_API_TOKEN'),     // token Admin API v1 di Circle
-    CIRCLE_SPACE_ID:  p.getProperty('CIRCLE_SPACE_ID') || '2482783', // Digital Step
-    AC_API_URL:       p.getProperty('AC_API_URL'),           // es: https://tuoaccount.api-us1.com
-    AC_API_KEY:       p.getProperty('AC_API_KEY'),           // Api-Token di ActiveCampaign
-    SHEET_ID:         p.getProperty('SHEET_ID'),             // ID del foglio Google
-    SHEET_NAME:       p.getProperty('SHEET_NAME') || 'Foglio1'
+    CIRCLE_API_TOKEN: p.getProperty('CIRCLE_API_TOKEN'),
+    CIRCLE_SPACE_ID:  p.getProperty('CIRCLE_SPACE_ID') || '2482783',
+    AC_API_URL:       p.getProperty('AC_API_URL'),
+    AC_API_KEY:       p.getProperty('AC_API_KEY'),
+    SHEET_ID:         p.getProperty('SHEET_ID'),
+    SHEET_NAME:       p.getProperty('SHEET_NAME') || 'Risultati'
   };
 }
 
-// Lookback usato alla PRIMA esecuzione (quando non c'è ancora un segnalibro).
-// 7 giorni così la prima volta recupera anche Federico ed Emanuela.
-var PRIMO_LOOKBACK_GIORNI = 7;
+var GIORNO_MS = 24 * 60 * 60 * 1000;
+var LOOKBACK_MINIMO_GIORNI = 3;   // margine di sicurezza ad ogni run
+var PRIMO_LOOKBACK_GIORNI  = 7;   // quanto guardare indietro alla prima esecuzione
+
+// Intestazione del foglio (stesso ordine dei tuoi dati esistenti)
+var INTESTAZIONE = ['Data_Check', 'Nome', 'Cognome', 'Email', 'Telefono'];
 
 // =============================================================
-//  TRIGGER
+//  TRIGGER giornaliero
 // =============================================================
 function installaTriggerGiornaliero() {
-  // Rimuove eventuali trigger doppi dello stesso script
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === 'aggiornaDigitalStep') ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('aggiornaDigitalStep')
     .timeBased()
     .everyDays(1)
-    .atHour(7) // gira ogni giorno verso le 7 del mattino (orario del progetto)
+    .atHour(7) // ogni giorno verso le 7 (ora di Roma, come da impostazioni progetto)
     .create();
-  Logger.log('Trigger giornaliero installato. Controlla: Apple/Trigger nella barra a sinistra.');
+  Logger.log('Trigger giornaliero installato (ogni giorno verso le 7).');
 }
 
 // =============================================================
@@ -66,155 +67,130 @@ function aggiornaDigitalStep() {
   _assertConfig(cfg);
 
   var props = PropertiesService.getScriptProperties();
-  var watermark = props.getProperty('WATERMARK');
-  var since;
-  if (watermark) {
-    since = new Date(watermark);
+  var ultimoRun = props.getProperty('LAST_RUN');
+
+  var lookbackMs;
+  if (ultimoRun) {
+    // tempo trascorso dall'ultimo run + 1 giorno di margine, minimo 3 giorni
+    lookbackMs = (Date.now() - new Date(ultimoRun).getTime()) + GIORNO_MS;
+    if (lookbackMs < LOOKBACK_MINIMO_GIORNI * GIORNO_MS) lookbackMs = LOOKBACK_MINIMO_GIORNI * GIORNO_MS;
   } else {
-    // Prima esecuzione: parti da N giorni fa
-    since = new Date(Date.now() - PRIMO_LOOKBACK_GIORNI * 24 * 60 * 60 * 1000);
+    lookbackMs = PRIMO_LOOKBACK_GIORNI * GIORNO_MS;
   }
 
-  var risultato = _processa(cfg, since, false); // false = scrivi davvero
-  Logger.log('Fatto. Nuove righe aggiunte: ' + risultato.aggiunti +
-             ' | Saltati (già presenti): ' + risultato.giaVisti +
-             ' | Senza match su ActiveCampaign: ' + risultato.senzaMatch.join(', '));
+  var r = _processa(cfg, lookbackMs, false);
+  props.setProperty('LAST_RUN', new Date().toISOString());
+
+  Logger.log('Fatto. Aggiunti: ' + r.aggiunti +
+             ' | Già presenti (saltati): ' + r.giaPresenti +
+             ' | Senza match su ActiveCampaign: ' + r.senzaMatch.join(', '));
 }
 
 // =============================================================
-//  BACKFILL: recupera gli arretrati degli ultimi N giorni
-//  Eseguila UNA VOLTA per recuperare chi è stato perso (es. backfill(7))
+//  BACKFILL: recupera gli arretrati degli ultimi N giorni (default 7)
 // =============================================================
 function backfill(giorni) {
   giorni = giorni || 7;
   var cfg = _config();
   _assertConfig(cfg);
-  var since = new Date(Date.now() - giorni * 24 * 60 * 60 * 1000);
-  var risultato = _processa(cfg, since, false);
-  Logger.log('Backfill ' + giorni + ' giorni → aggiunti: ' + risultato.aggiunti +
-             ' | già presenti: ' + risultato.giaVisti +
-             ' | senza match: ' + risultato.senzaMatch.join(', '));
+  var r = _processa(cfg, giorni * GIORNO_MS, false);
+  PropertiesService.getScriptProperties().setProperty('LAST_RUN', new Date().toISOString());
+  Logger.log('Backfill ' + giorni + ' giorni → aggiunti: ' + r.aggiunti +
+             ' | già presenti: ' + r.giaPresenti +
+             ' | senza match: ' + r.senzaMatch.join(', '));
 }
 
 // =============================================================
 //  TEST A VUOTO (dry run): NON scrive nulla, mostra solo cosa farebbe
-//  Usala per verificare che tutto funzioni prima di fidarti dell'automatismo
 // =============================================================
 function test_DryRun() {
   var cfg = _config();
   _assertConfig(cfg);
-  var since = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000); // ultimi 3 giorni
-  var risultato = _processa(cfg, since, true); // true = DRY RUN, non scrive
-  Logger.log('--- DRY RUN (nessuna scrittura) ---');
-  Logger.log('Righe che verrebbero aggiunte: ' + risultato.aggiunti);
-  Logger.log('Anteprima:\n' + risultato.anteprima.join('\n'));
-  Logger.log('Senza match su ActiveCampaign: ' + risultato.senzaMatch.join(', '));
+  var r = _processa(cfg, 3 * GIORNO_MS, true);
+  Logger.log('--- DRY RUN (nessuna scrittura nel foglio) ---');
+  Logger.log('Righe che verrebbero aggiunte: ' + r.aggiunti);
+  Logger.log('Anteprima:\n' + (r.anteprima.join('\n') || '(nessuna)'));
+  Logger.log('Già presenti nel foglio (saltati): ' + r.giaPresenti);
+  Logger.log('Trovati su Circle ma NON su ActiveCampaign: ' + (r.senzaMatch.join(', ') || '(nessuno)'));
 }
 
 // =============================================================
 //  CUORE DEL PROCESSO
 // =============================================================
-function _processa(cfg, since, dryRun) {
-  var props = PropertiesService.getScriptProperties();
-  var seen = JSON.parse(props.getProperty('SEEN_IDS') || '[]');
-  var seenSet = {};
-  seen.forEach(function (id) { seenSet[id] = true; });
+function _processa(cfg, lookbackMs, dryRun) {
+  var cutoff = new Date(Date.now() - lookbackMs);
 
-  // 1) Prendi i membri dello spazio Digital Step entrati da "since" in poi
-  var membri = _circleMembriNuovi(cfg, since, seenSet);
-  // ordine cronologico crescente, così il foglio resta in ordine
-  membri.sort(function (a, b) { return new Date(a.created_at) - new Date(b.created_at); });
+  // 1) Email recenti dallo spazio Digital Step su Circle
+  var membri = _circleMembriRecenti(cfg, cutoff);
 
-  var ss, sheet, tz;
-  if (!dryRun) {
-    ss = SpreadsheetApp.openById(cfg.SHEET_ID);
-    sheet = ss.getSheetByName(cfg.SHEET_NAME) || ss.insertSheet(cfg.SHEET_NAME);
-    _assicuraIntestazione(sheet);
-    tz = ss.getSpreadsheetTimeZone();
-  } else {
-    tz = Session.getScriptTimeZone();
+  // 2) Apri il foglio e leggi le email già presenti (per non duplicare)
+  var ss = SpreadsheetApp.openById(cfg.SHEET_ID);
+  var sheet = ss.getSheetByName(cfg.SHEET_NAME) || ss.insertSheet(cfg.SHEET_NAME);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(INTESTAZIONE);
+    sheet.getRange(1, 1, 1, INTESTAZIONE.length).setFontWeight('bold');
   }
+  var tz = ss.getSpreadsheetTimeZone();
+  var emailEsistenti = _emailGiaPresenti(sheet);
 
   var oggi = Utilities.formatDate(new Date(), tz, 'dd/MM/yyyy');
-  var risultato = { aggiunti: 0, giaVisti: 0, senzaMatch: [], anteprima: [] };
-  var maxTs = since.getTime();
-  var nuoviSeen = [];
+  var r = { aggiunti: 0, giaPresenti: 0, senzaMatch: [], anteprima: [] };
 
   membri.forEach(function (m) {
-    var ts = new Date(m.created_at).getTime();
-    if (ts > maxTs) maxTs = ts;
-
-    if (seenSet[m.id]) { risultato.giaVisti++; return; }
-
-    var email = m.email;
-    if (!email) { risultato.senzaMatch.push('(membro senza email id ' + m.id + ')'); return; }
+    var email = (m.email || '').toLowerCase().trim();
+    if (!email) return;
+    if (emailEsistenti[email]) { r.giaPresenti++; return; }
 
     var ac = _acTrovaContatto(cfg, email);
-    if (!ac) { risultato.senzaMatch.push(email); return; }
+    if (!ac) { r.senzaMatch.push(email); return; }
 
-    // Colonne richieste: CheckGiorno | Nome | Cognome | Telefono
-    var nome = ac.firstName || m.first_name || '';
-    var cognome = ac.lastName || m.last_name || '';
-    var telefono = ac.phone || '';
-    var riga = [oggi, nome, cognome, telefono];
+    // Colonne: Data_Check | Nome | Cognome | Email | Telefono
+    var riga = [oggi, ac.firstName || '', ac.lastName || '', m.email, ac.phone || ''];
 
     if (dryRun) {
-      risultato.anteprima.push(riga.join(' | ') + '   <' + email + '>');
+      r.anteprima.push(riga.join(' | '));
     } else {
       sheet.appendRow(riga);
     }
-    risultato.aggiunti++;
-    nuoviSeen.push(m.id);
+    emailEsistenti[email] = true; // evita doppioni nello stesso run
+    r.aggiunti++;
   });
 
-  // 2) Aggiorna stato (solo se NON è un dry run)
-  if (!dryRun) {
-    var tuttiSeen = seen.concat(nuoviSeen);
-    // tieni solo gli ultimi 3000 ID per non far crescere all'infinito la proprietà
-    if (tuttiSeen.length > 3000) tuttiSeen = tuttiSeen.slice(tuttiSeen.length - 3000);
-    props.setProperty('SEEN_IDS', JSON.stringify(tuttiSeen));
-    props.setProperty('WATERMARK', new Date(maxTs).toISOString());
-  }
-
-  return risultato;
+  return r;
 }
 
 // =============================================================
-//  CIRCLE: membri dello spazio entrati dopo "since" e non ancora visti
+//  CIRCLE: membri dello spazio entrati dopo "cutoff"
+//  (stesso endpoint del tuo vecchio script, che funzionava)
 // =============================================================
-function _circleMembriNuovi(cfg, since, seenSet) {
+function _circleMembriRecenti(cfg, cutoff) {
   var out = [];
   var page = 1;
-  var perPage = 100;
-  var sinceMs = since.getTime();
+  var createdAfter = cutoff.toISOString();
 
   while (true) {
-    var url = 'https://app.circle.so/api/v1/space_members'
+    var url = 'https://app.circle.so/api/v1/memberships'
             + '?space_id=' + encodeURIComponent(cfg.CIRCLE_SPACE_ID)
-            + '&per_page=' + perPage
-            + '&page=' + page;
-    var res = _fetchJson(url, {
+            + '&page=' + page
+            + '&per_page=100'
+            + '&created_after=' + encodeURIComponent(createdAfter);
+    var data = _fetchJson(url, {
       method: 'get',
-      headers: { 'Authorization': 'Token ' + cfg.CIRCLE_API_TOKEN }
+      headers: {
+        'Authorization': 'Bearer ' + cfg.CIRCLE_API_TOKEN,
+        'Content-Type': 'application/json'
+      }
     });
 
-    var records = (res && res.records) ? res.records : [];
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      var cm = r.community_member || {};
-      var createdAt = r.created_at; // data di ingresso NELLO SPAZIO
-      if (!createdAt) continue;
-      if (new Date(createdAt).getTime() < sinceMs) continue; // troppo vecchio
-      out.push({
-        id: r.id,
-        created_at: createdAt,
-        email: cm.email || null,
-        first_name: cm.first_name || '',
-        last_name: cm.last_name || ''
-      });
-    }
+    var lista = (data && data.memberships) ? data.memberships : [];
+    if (lista.length === 0) break;
 
-    if (res && res.has_next_page) { page++; } else { break; }
+    lista.forEach(function (m) {
+      var u = m.user || {};
+      out.push({ email: u.email, name: u.name });
+    });
+
+    page++;
     if (page > 100) break; // salvagente
   }
   return out;
@@ -226,12 +202,10 @@ function _circleMembriNuovi(cfg, since, seenSet) {
 function _acTrovaContatto(cfg, email) {
   var url = cfg.AC_API_URL.replace(/\/+$/, '')
           + '/api/3/contacts?email=' + encodeURIComponent(email);
-  var res = _fetchJson(url, {
-    method: 'get',
-    headers: { 'Api-Token': cfg.AC_API_KEY }
-  });
-  if (res && res.contacts && res.contacts.length > 0) {
-    return res.contacts[0];
+  var data = _fetchJson(url, { method: 'get', headers: { 'Api-Token': cfg.AC_API_KEY } });
+  if (data && data.contacts && data.contacts.length > 0) {
+    var c = data.contacts[0];
+    return { firstName: c.firstName || '', lastName: c.lastName || '', phone: c.phone || '' };
   }
   return null;
 }
@@ -239,6 +213,25 @@ function _acTrovaContatto(cfg, email) {
 // =============================================================
 //  UTILITY
 // =============================================================
+function _emailGiaPresenti(sheet) {
+  var set = {};
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return set;
+
+  // trova la colonna "Email" dall'intestazione (default: 4ª colonna)
+  var header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var col = 4;
+  for (var i = 0; i < header.length; i++) {
+    if (String(header[i]).toLowerCase().trim() === 'email') { col = i + 1; break; }
+  }
+  var valori = sheet.getRange(2, col, lastRow - 1, 1).getValues();
+  valori.forEach(function (riga) {
+    var e = String(riga[0] || '').toLowerCase().trim();
+    if (e) set[e] = true;
+  });
+  return set;
+}
+
 function _fetchJson(url, options) {
   options = options || {};
   options.muteHttpExceptions = true;
@@ -251,20 +244,12 @@ function _fetchJson(url, options) {
       try { return JSON.parse(resp.getContentText()); }
       catch (e) { return null; }
     }
-    // 429/5xx → riprova con backoff fino a 4 volte
     if ((code === 429 || code >= 500) && tentativi < 4) {
       Utilities.sleep(Math.pow(2, tentativi) * 1000);
       continue;
     }
     Logger.log('HTTP ' + code + ' su ' + url + '\n' + resp.getContentText().slice(0, 500));
     return null;
-  }
-}
-
-function _assicuraIntestazione(sheet) {
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['CheckGiorno', 'Nome', 'Cognome', 'Telefono']);
-    sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
   }
 }
 
@@ -280,7 +265,7 @@ function _assertConfig(cfg) {
 }
 
 // =============================================================
-//  TEST CONNESSIONE: verifica che le chiavi API rispondano
+//  TEST CONNESSIONE: verifica che le chiavi rispondano
 // =============================================================
 function testConnessione() {
   var cfg = _config();
@@ -288,16 +273,20 @@ function testConnessione() {
 
   // Circle
   var c = _fetchJson(
-    'https://app.circle.so/api/v1/space_members?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1',
-    { method: 'get', headers: { 'Authorization': 'Token ' + cfg.CIRCLE_API_TOKEN } });
-  Logger.log('Circle OK? membri totali nello spazio: ' + (c && c.count != null ? c.count : 'ERRORE'));
+    'https://app.circle.so/api/v1/memberships?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1',
+    { method: 'get', headers: { 'Authorization': 'Bearer ' + cfg.CIRCLE_API_TOKEN, 'Content-Type': 'application/json' } });
+  Logger.log('Circle risponde? ' + (c ? 'SÌ ✅' : 'NO ❌ (controlla il token)'));
 
   // ActiveCampaign
   var a = _fetchJson(cfg.AC_API_URL.replace(/\/+$/, '') + '/api/3/contacts?limit=1',
     { method: 'get', headers: { 'Api-Token': cfg.AC_API_KEY } });
-  Logger.log('ActiveCampaign OK? contatti totali: ' + (a && a.meta ? a.meta.total : 'ERRORE'));
+  Logger.log('ActiveCampaign risponde? ' + (a && a.meta ? 'SÌ ✅ (contatti totali: ' + a.meta.total + ')' : 'NO ❌ (controlla URL e chiave)'));
 
   // Foglio
-  var ss = SpreadsheetApp.openById(cfg.SHEET_ID);
-  Logger.log('Foglio OK? nome file: ' + ss.getName() + ' | scheda: ' + cfg.SHEET_NAME);
+  try {
+    var ss = SpreadsheetApp.openById(cfg.SHEET_ID);
+    Logger.log('Foglio aperto? SÌ ✅ → file "' + ss.getName() + '", scheda "' + cfg.SHEET_NAME + '"');
+  } catch (e) {
+    Logger.log('Foglio aperto? NO ❌ (controlla SHEET_ID)');
+  }
 }
