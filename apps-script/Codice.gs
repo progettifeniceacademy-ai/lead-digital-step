@@ -166,34 +166,50 @@ function _processa(cfg, lookbackMs, dryRun) {
 function _circleMembriRecenti(cfg, cutoff) {
   var out = [];
   var page = 1;
-  var createdAfter = cutoff.toISOString();
+  var cutoffMs = cutoff.getTime();
 
   while (true) {
-    var url = 'https://app.circle.so/api/v1/memberships'
+    var url = 'https://app.circle.so/api/v1/space_members'
             + '?space_id=' + encodeURIComponent(cfg.CIRCLE_SPACE_ID)
-            + '&page=' + page
             + '&per_page=100'
-            + '&created_after=' + encodeURIComponent(createdAfter);
-    var data = _fetchJson(url, {
-      method: 'get',
-      headers: {
-        'Authorization': 'Bearer ' + cfg.CIRCLE_API_TOKEN,
-        'Content-Type': 'application/json'
-      }
+            + '&page=' + page;
+    var data = _circleGet(cfg, url);
+
+    var recs = (data && data.records) ? data.records : [];
+    if (recs.length === 0) break;
+
+    recs.forEach(function (rr) {
+      var cm = rr.community_member || {};
+      if (!rr.created_at) return;
+      if (new Date(rr.created_at).getTime() < cutoffMs) return; // entrato prima del cutoff
+      out.push({ email: cm.email, name: cm.name });
     });
 
-    var lista = (data && data.memberships) ? data.memberships : [];
-    if (lista.length === 0) break;
-
-    lista.forEach(function (m) {
-      var u = m.user || {};
-      out.push({ email: u.email, name: u.name });
-    });
-
-    page++;
+    if (data && data.has_next_page) { page++; } else { break; }
     if (page > 100) break; // salvagente
   }
   return out;
+}
+
+// Chiamata a Circle che prova prima "Token", poi "Bearer" (a seconda del tipo di token)
+function _circleGet(cfg, url) {
+  var schemi = ['Token ', 'Bearer '];
+  for (var i = 0; i < schemi.length; i++) {
+    var resp = UrlFetchApp.fetch(url, {
+      method: 'get',
+      muteHttpExceptions: true,
+      headers: { 'Authorization': schemi[i] + cfg.CIRCLE_API_TOKEN }
+    });
+    var code = resp.getResponseCode();
+    if (code >= 200 && code < 300) {
+      try { return JSON.parse(resp.getContentText()); } catch (e) { return null; }
+    }
+    if (code === 401 || code === 403) continue; // token non accettato con questo schema: prova l'altro
+    Logger.log('Circle HTTP ' + code + ' su ' + url + '\n' + resp.getContentText().slice(0, 300));
+    return null;
+  }
+  Logger.log('Circle: autenticazione fallita con entrambi gli schemi (Token e Bearer).');
+  return null;
 }
 
 // =============================================================
@@ -272,10 +288,9 @@ function testConnessione() {
   _assertConfig(cfg);
 
   // Circle
-  var c = _fetchJson(
-    'https://app.circle.so/api/v1/memberships?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1',
-    { method: 'get', headers: { 'Authorization': 'Bearer ' + cfg.CIRCLE_API_TOKEN, 'Content-Type': 'application/json' } });
-  Logger.log('Circle risponde? ' + (c ? 'SÌ ✅' : 'NO ❌ (controlla il token)'));
+  var c = _circleGet(cfg,
+    'https://app.circle.so/api/v1/space_members?space_id=' + cfg.CIRCLE_SPACE_ID + '&per_page=1');
+  Logger.log('Circle risponde? ' + (c && c.records ? 'SÌ ✅ (membri nello spazio: ' + (c.count != null ? c.count : '?') + ')' : 'NO ❌ (controlla il token)'));
 
   // ActiveCampaign
   var a = _fetchJson(cfg.AC_API_URL.replace(/\/+$/, '') + '/api/3/contacts?limit=1',
