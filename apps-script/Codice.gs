@@ -305,3 +305,40 @@ function testConnessione() {
     Logger.log('Foglio aperto? NO ❌ (controlla SHEET_ID)');
   }
 }
+
+// =============================================================
+//  DIAGNOSTICA: prova vari endpoint/auth di Circle e logga quale risponde
+// =============================================================
+function diagnosticaCircle() {
+  var cfg = _config();
+  var sid = cfg.CIRCLE_SPACE_ID;
+  var tok = cfg.CIRCLE_API_TOKEN;
+  var prove = [
+    ['Bearer', 'https://app.circle.so/api/admin/v2/space_members?space_id=' + sid + '&per_page=2'],
+    ['Bearer', 'https://app.circle.so/api/admin/v2/community_members?per_page=2'],
+    ['Bearer', 'https://app.circle.so/api/admin/v2/spaces?per_page=2'],
+    ['Token',  'https://app.circle.so/api/v1/space_members?space_id=' + sid + '&per_page=2'],
+    ['Bearer', 'https://app.circle.so/api/v1/space_members?space_id=' + sid + '&per_page=2'],
+    ['Token',  'https://app.circle.so/api/v1/community_members?per_page=2']
+  ];
+  prove.forEach(function (p) {
+    var schema = p[0], url = p[1];
+    var resp = UrlFetchApp.fetch(url, { method: 'get', muteHttpExceptions: true,
+      headers: { 'Authorization': schema + ' ' + tok } });
+    var code = resp.getResponseCode();
+    var body = resp.getContentText();
+    var info = 'HTTP ' + code;
+    var primo = body.charAt(0);
+    if (primo === '{' || primo === '[') {
+      try {
+        var j = JSON.parse(body);
+        var keys = (j && typeof j === 'object' && !Array.isArray(j)) ? Object.keys(j).join(',') : ('array, elementi: ' + j.length);
+        info += ' | chiavi JSON: ' + keys;
+        if (j.records) info += ' | records: ' + j.records.length;
+      } catch (e) { info += ' | JSON non valido'; }
+    } else {
+      info += ' | pagina HTML (indirizzo sbagliato): ' + body.slice(0, 50).replace(/\n/g, ' ');
+    }
+    Logger.log('[' + schema + '] ' + url.replace('https://app.circle.so', '') + '\n   → ' + info);
+  });
+}
