@@ -44,7 +44,7 @@ function elaboraExport() {
   var file = _exportPiuRecente();
   if (!file) { Logger.log('Nessun file CSV nella cartella "' + FOLDER_NAME + '".'); return; }
 
-  var righe = Utilities.parseCsv(file.getBlob().getDataAsString('UTF-8'));
+  var righe = _leggiRighe(file);
   if (righe.length < 2) { Logger.log('Il file è vuoto.'); return; }
 
   // trova le colonne dall'intestazione
@@ -133,12 +133,24 @@ function _exportPiuRecente() {
   while (files.hasNext()) {
     var f = files.next();
     var nome = f.getName().toLowerCase();
-    var mime = f.getBlob().getContentType();
-    var pareCsv = nome.indexOf('.csv') >= 0 || mime === 'text/csv' || mime === 'application/vnd.ms-excel';
+    var mime = f.getMimeType();
+    var pareCsv = nome.indexOf('.csv') >= 0
+      || mime === 'text/csv'
+      || mime === 'application/vnd.ms-excel'
+      || mime === 'application/vnd.google-apps.spreadsheet'; // CSV convertito in Foglio Google
     if (!pareCsv) continue;
     if (!recente || f.getLastUpdated() > recente.getLastUpdated()) recente = f;
   }
   return recente;
+}
+
+// Legge il file come tabella (2D), sia esso un CSV o un Foglio Google
+function _leggiRighe(file) {
+  if (file.getMimeType() === 'application/vnd.google-apps.spreadsheet') {
+    var sh = SpreadsheetApp.openById(file.getId()).getSheets()[0];
+    return sh.getDataRange().getValues();
+  }
+  return Utilities.parseCsv(file.getBlob().getDataAsString('UTF-8'));
 }
 
 function _colonna(header, nomiPossibili) {
