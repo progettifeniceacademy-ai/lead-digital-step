@@ -1,15 +1,17 @@
 /**
- * Corso 10h → tag "<20% corso 10h" su Circle → ActiveCampaign → Foglio
- * --------------------------------------------------------------------
- * Legge chi ha il tag Circle "<20% corso 10h" (id 271325), cerca l'email su
- * ActiveCampaign e scrive nel foglio: Data_Check | Nome | Cognome | Email | Telefono.
+ * Corso 10h → tag "<20% corso 10h" su Circle → Foglio
+ * ---------------------------------------------------------------------------
+ * Legge chi ha il tag Circle "<20% corso 10h" (id 271325) e scrive nel foglio:
+ *   Data_Check | Nome | Cognome | Email | Telefono
+ * Nome/Cognome/Telefono vengono presi DA CIRCLE (campo profilo "Numero di
+ * telefono"). Se su Circle il telefono manca, prova come riserva ActiveCampaign.
  * Niente doppioni (salta chi è già nel foglio). Gira ogni giorno in automatico.
  *
  * FUNZIONI:
- *  - testTag()                    → PROVA: dice quante persone hanno il tag (non scrive)
+ *  - testTag()                    → PROVA: quante persone hanno il tag + un esempio (non scrive)
  *  - aggiornaCorsoTag()           → il lavoro vero (lo chiama il trigger)
  *  - installaTriggerGiornaliero() → accende l'automatismo quotidiano
- * --------------------------------------------------------------------
+ * ---------------------------------------------------------------------------
  */
 
 // ===== CONFIGURAZIONE (già compilata) =====
@@ -21,16 +23,20 @@ var SHEET_ID         = '16ND-uRlv9o5JHjNLYFw_93AnczfeSt6Tt6qehrv4b1s';
 var SHEET_NAME       = 'Risultati';
 var INTESTAZIONE     = ['Data_Check', 'Nome', 'Cognome', 'Email', 'Telefono'];
 
-// ===== PROVA: quante persone hanno il tag (non scrive nulla) =====
+// ===== PROVA (non scrive nulla) =====
 function testTag() {
-  var emails = _emailConTag();
-  Logger.log('Persone con il tag "<20% corso 10h": ' + emails.length);
-  Logger.log('Prime 10: ' + emails.slice(0, 10).join(', '));
+  var membri = _membriConTag();
+  Logger.log('Persone con il tag "<20% corso 10h": ' + membri.length);
+  if (membri.length) {
+    var d = _dettagliMembro(membri[0].id, membri[0].email);
+    Logger.log('Esempio → ' + membri[0].email + ' | Nome: ' + d.firstName +
+               ' | Cognome: ' + d.lastName + ' | Telefono: ' + d.phone + ' | fonte: ' + d.fonte);
+  }
 }
 
 // ===== FUNZIONE PRINCIPALE (la chiama il trigger) =====
 function aggiornaCorsoTag() {
-  var emails = _emailConTag();
+  var membri = _membriConTag();
 
   var ss = SpreadsheetApp.openById(SHEET_ID);
   var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
@@ -42,18 +48,14 @@ function aggiornaCorsoTag() {
   var oggi = Utilities.formatDate(new Date(), tz, 'dd/MM/yyyy');
   var gia = _emailGiaPresenti(sheet);
 
-  var nuove = [];
-  var aggiunti = 0, saltati = 0, senzaAc = 0;
+  var nuove = [], aggiunti = 0, saltati = 0, senzaTel = 0;
 
-  emails.forEach(function (email) {
-    if (gia[email]) { saltati++; return; }
-    var ac = _acTrovaContatto(email);
-    var nome = ac ? (ac.firstName || '') : '';
-    var cognome = ac ? (ac.lastName || '') : '';
-    var telefono = ac ? (ac.phone || '') : '';
-    if (!ac) senzaAc++;
-    nuove.push([oggi, nome, cognome, email, telefono]);
-    gia[email] = true;
+  membri.forEach(function (m) {
+    if (gia[m.email]) { saltati++; return; }
+    var d = _dettagliMembro(m.id, m.email);
+    if (!d.phone) senzaTel++;
+    nuove.push([oggi, d.firstName, d.lastName, m.email, d.phone]);
+    gia[m.email] = true;
     aggiunti++;
   });
 
@@ -61,7 +63,7 @@ function aggiornaCorsoTag() {
     sheet.getRange(sheet.getLastRow() + 1, 1, nuove.length, INTESTAZIONE.length).setValues(nuove);
   }
   Logger.log('Fatto. Aggiunti: ' + aggiunti + ' | Già presenti: ' + saltati +
-             ' | Aggiunti senza telefono (non su AC): ' + senzaAc);
+             ' | Senza telefono (né Circle né AC): ' + senzaTel);
 }
 
 // ===== TRIGGER giornaliero =====
@@ -73,30 +75,64 @@ function installaTriggerGiornaliero() {
   Logger.log('Trigger giornaliero installato (ogni giorno verso le 8).');
 }
 
-// ===== CIRCLE: tutte le email che hanno il tag TAG_ID =====
-function _emailConTag() {
-  var out = [];
-  var visti = {};
-  var page = 1;
+// ===== CIRCLE: membri (id + email) che hanno il tag =====
+function _membriConTag() {
+  var out = [], visti = {}, page = 1;
   while (true) {
     var url = 'https://app.circle.so/api/admin/v2/tagged_members'
-            + '?member_tag_ids=' + TAG_ID
-            + '&per_page=100&page=' + page;
+            + '?member_tag_ids=' + TAG_ID + '&per_page=100&page=' + page;
     var data = _circleGet(url);
     var recs = (data && data.records) ? data.records : [];
     if (recs.length === 0) break;
-
     recs.forEach(function (r) {
-      // filtro di sicurezza: tengo solo il tag giusto
       if (r.member_tag_id !== TAG_ID) return;
       var email = (r.user_email || r.lead_email || '').toLowerCase().trim();
-      if (email && !visti[email]) { visti[email] = true; out.push(email); }
+      if (email && !visti[email]) {
+        visti[email] = true;
+        out.push({ id: r.community_member_id || r.contact_id, email: email });
+      }
     });
-
     if (data && data.has_next_page) { page++; } else { break; }
-    if (page > 400) break; // salvagente
+    if (page > 400) break;
   }
   return out;
+}
+
+// ===== Dettagli membro: nome/cognome/telefono (prima Circle, poi AC) =====
+function _dettagliMembro(id, email) {
+  var m = null;
+
+  // 1) Circle per id
+  if (id) {
+    var d1 = _circleGet('https://app.circle.so/api/admin/v2/community_members/' + id);
+    if (d1) m = d1.community_member || (d1.records && d1.records[0]) || d1;
+  }
+  // 2) Circle per email (riserva)
+  if (!m || !(m.flattened_profile_fields || m.first_name)) {
+    var d2 = _circleGet('https://app.circle.so/api/admin/v2/community_members/search?email=' + encodeURIComponent(email));
+    if (d2) m = d2.community_member || (d2.records && d2.records[0]) || d2;
+  }
+
+  var firstName = '', lastName = '', phone = '', fonte = '';
+  if (m) {
+    firstName = m.first_name || '';
+    lastName = m.last_name || '';
+    var ff = m.flattened_profile_fields || {};
+    phone = ff.numero_di_telefono || ff.telefono || ff.phone || '';
+    if (phone) fonte = 'Circle';
+  }
+
+  // 3) riserva ActiveCampaign per il telefono (e nome se manca)
+  if (!phone) {
+    var ac = _acTrovaContatto(email);
+    if (ac) {
+      if (ac.phone) { phone = ac.phone; fonte = 'ActiveCampaign'; }
+      if (!firstName) firstName = ac.firstName || '';
+      if (!lastName) lastName = ac.lastName || '';
+    }
+  }
+  if (!fonte) fonte = '(nessuna)';
+  return { firstName: firstName, lastName: lastName, phone: phone, fonte: fonte };
 }
 
 function _circleGet(url) {
@@ -105,14 +141,11 @@ function _circleGet(url) {
   var body = resp.getContentText();
   var data = null;
   try { data = JSON.parse(body); } catch (e) { data = null; }
-  if (!data || (data.status && data.message && !data.records)) {
-    Logger.log('Circle errore su ' + url + ' → ' + body.slice(0, 200));
-    return null;
-  }
+  if (!data || (data.status && data.message && !data.records && !data.id)) return null;
   return data;
 }
 
-// ===== ACTIVECAMPAIGN =====
+// ===== ACTIVECAMPAIGN (riserva) =====
 function _acTrovaContatto(email) {
   var url = AC_API_URL.replace(/\/+$/, '') + '/api/3/contacts?email=' + encodeURIComponent(email);
   var resp = UrlFetchApp.fetch(url, { method: 'get', muteHttpExceptions: true,
@@ -129,16 +162,14 @@ function _acTrovaContatto(email) {
 
 // ===== UTILITY =====
 function _emailGiaPresenti(sheet) {
-  var set = {};
-  var lastRow = sheet.getLastRow();
+  var set = {}, lastRow = sheet.getLastRow();
   if (lastRow < 2) return set;
   var header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-  var col = 4; // colonna Email
+  var col = 4;
   for (var i = 0; i < header.length; i++) {
     if (String(header[i]).toLowerCase().trim() === 'email') { col = i + 1; break; }
   }
-  var valori = sheet.getRange(2, col, lastRow - 1, 1).getValues();
-  valori.forEach(function (v) {
+  sheet.getRange(2, col, lastRow - 1, 1).getValues().forEach(function (v) {
     var e = String(v[0] || '').toLowerCase().trim();
     if (e) set[e] = true;
   });
