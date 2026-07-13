@@ -85,7 +85,7 @@ function _riempiMancanti(sheet, mappaId) {
     var email = String(vals[i][3] || '').toLowerCase().trim();
     var tel = String(vals[i][4] || '').trim();
     if (!email) continue;
-    if (tel !== '') continue; // ha già il telefono, salto
+    if (_telefonoValido(tel)) continue; // ha già un telefono valido, salto
 
     var d = _dettagliMembro(mappaId[email] || null, email);
     var row = i + 2;
@@ -148,21 +148,29 @@ function _dettagliMembro(id, email) {
     firstName = m.first_name || '';
     lastName = m.last_name || '';
     var ff = m.flattened_profile_fields || {};
-    phone = ff.numero_di_telefono || ff.telefono || ff.phone || '';
-    if (phone) fonte = 'Circle';
+    var tel = ff.numero_di_telefono || ff.telefono || ff.phone || '';
+    if (_telefonoValido(tel)) { phone = tel; fonte = 'Circle'; }
   }
 
   // 3) riserva ActiveCampaign per il telefono (e nome se manca)
   if (!phone) {
     var ac = _acTrovaContatto(email);
     if (ac) {
-      if (ac.phone) { phone = ac.phone; fonte = 'ActiveCampaign'; }
+      if (_telefonoValido(ac.phone)) { phone = ac.phone; fonte = 'ActiveCampaign'; }
       if (!firstName) firstName = ac.firstName || '';
       if (!lastName) lastName = ac.lastName || '';
     }
   }
   if (!fonte) fonte = '(nessuna)';
   return { firstName: firstName, lastName: lastName, phone: phone, fonte: fonte };
+}
+
+// Considera "non valido" (= vuoto) un numero finto: troppo corto o tutte cifre uguali (es. 00000000)
+function _telefonoValido(p) {
+  var d = String(p || '').replace(/\D/g, '');
+  if (d.length < 7) return false;
+  if (/^(\d)\1+$/.test(d)) return false;
+  return true;
 }
 
 function _circleGet(url) {
