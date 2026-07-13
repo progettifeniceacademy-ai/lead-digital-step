@@ -48,6 +48,10 @@ function aggiornaCorsoTag() {
   var oggi = Utilities.formatDate(new Date(), tz, 'dd/MM/yyyy');
   var gia = _emailGiaPresenti(sheet);
 
+  // mappa email -> id (serve per riempire dopo i telefoni mancanti)
+  var mappaId = {};
+  membri.forEach(function (m) { mappaId[m.email] = m.id; });
+
   var nuove = [], aggiunti = 0, saltati = 0, senzaTel = 0;
 
   membri.forEach(function (m) {
@@ -62,8 +66,34 @@ function aggiornaCorsoTag() {
   if (nuove.length) {
     sheet.getRange(sheet.getLastRow() + 1, 1, nuove.length, INTESTAZIONE.length).setValues(nuove);
   }
+
+  // ripassa le righe già esistenti col telefono vuoto e prova a riempirle
+  var riempiti = _riempiMancanti(sheet, mappaId);
+
   Logger.log('Fatto. Aggiunti: ' + aggiunti + ' | Già presenti: ' + saltati +
-             ' | Senza telefono (né Circle né AC): ' + senzaTel);
+             ' | Nuovi senza telefono: ' + senzaTel + ' | Telefoni recuperati nelle righe vecchie: ' + riempiti);
+}
+
+// Ripassa le righe con Telefono vuoto e prova a riempire telefono/nome/cognome
+function _riempiMancanti(sheet, mappaId) {
+  var last = sheet.getLastRow();
+  if (last < 2) return 0;
+  var vals = sheet.getRange(2, 1, last - 1, INTESTAZIONE.length).getValues();
+  var riempiti = 0;
+  for (var i = 0; i < vals.length; i++) {
+    var nome = vals[i][1], cognome = vals[i][2];
+    var email = String(vals[i][3] || '').toLowerCase().trim();
+    var tel = String(vals[i][4] || '').trim();
+    if (!email) continue;
+    if (tel !== '') continue; // ha già il telefono, salto
+
+    var d = _dettagliMembro(mappaId[email] || null, email);
+    var row = i + 2;
+    if (!nome && d.firstName) sheet.getRange(row, 2).setValue(d.firstName);
+    if (!cognome && d.lastName) sheet.getRange(row, 3).setValue(d.lastName);
+    if (d.phone) { sheet.getRange(row, 5).setValue(d.phone); riempiti++; }
+  }
+  return riempiti;
 }
 
 // ===== TRIGGER giornaliero =====
