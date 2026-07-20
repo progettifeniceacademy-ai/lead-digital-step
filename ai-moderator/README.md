@@ -59,6 +59,13 @@ Routine schedulata  ──►  Agente AI  ──►  API Circle
 3. **La FAQ minima.** Bastano 5-6 risposte in `faq.md` per partire; il resto si
    aggiunge vivendo la community.
 4. **La schedulazione.** Routine 1 volta al giorno in avvio (poi eventualmente 2-3).
+   ⚠️ **Attenzione connettore:** una Routine creata via API può partire **senza**
+   il connettore Circle collegato → la sessione schedulata non riuscirebbe a
+   leggere Circle. Soluzioni:
+   - **On-demand:** scrivere "Guido, fai il giro" nella sessione, che gira dal vivo
+     con il connettore attivo (affidabile, ideale in rodaggio a basso traffico).
+   - **Automazione affidabile:** creare la Routine dalla **UI "Routines" di
+     claude.ai**, dove si può agganciare il connettore Circle alla Routine.
 
 ## Fasi consigliate (community mai testata)
 
