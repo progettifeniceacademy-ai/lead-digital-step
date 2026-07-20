@@ -58,7 +58,9 @@ Routine schedulata  ──►  Agente AI  ──►  API Circle
      dell'account Guido** (Admin API), così ogni azione risulta di Guido.
 3. **La FAQ minima.** Bastano 5-6 risposte in `faq.md` per partire; il resto si
    aggiunge vivendo la community.
-4. **La schedulazione.** Routine 1 volta al giorno in avvio (poi eventualmente 2-3).
+4. **La schedulazione.** Routine **2 volte al giorno, alle 10:00 e 16:00 ora
+   italiana** (cron `0 8,14 * * *` in UTC; in inverno slitta di un'ora →
+   09:00/15:00, da correggere se serve).
    ⚠️ **Attenzione connettore:** una Routine creata via API può partire **senza**
    il connettore Circle collegato → la sessione schedulata non riuscirebbe a
    leggere Circle. Soluzioni:
