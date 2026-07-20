@@ -41,6 +41,11 @@ Regole ferree: non inventare risposte non coperte dalla knowledge base; non
 pubblicare mai azioni gialle/rosse senza approvazione; un solo intervento per
 thread; tono e regole del playbook sempre.
 
+**Regola tecnica di pubblicazione:** ogni post creato da Guido deve avere SEMPRE
+`is_comments_enabled: true` e `is_liking_enabled: true` (e `is_comments_closed:
+false`). Un post di Guido deve sempre poter ricevere commenti e like: senza, la
+community non può rispondere.
+
 ---
 
 ## Come arriva l'approvazione a te (Federico)
