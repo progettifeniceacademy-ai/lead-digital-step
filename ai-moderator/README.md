@@ -42,22 +42,23 @@ Routine schedulata  ──►  Agente AI  ──►  API Circle
 
 ## Cosa serve per andare live (decisioni aperte)
 
-1. **Lo spazio community.** Non serve crearne uno nuovo: si **riusa lo spazio
-   "Inizia da qui"** (quello col video di benvenuto pinnato in alto). Due
-   modifiche da fare su quello spazio:
-   - **rendere lo spazio pubblico** a tutti i membri (oggi è ad accesso ristretto);
-   - **abilitare gli utenti a scrivere post** (oggi possono solo leggere).
-   Il video di benvenuto resta pinnato in cima; i nuovi post dei membri gli vanno
-   sotto. Il moderatore AI lavora proprio qui.
-2. **L'account del bot.** Per agire "come moderatore", il bot ha bisogno di un
-   proprio profilo su Circle (nome, bio trasparente, avatar) con ruolo di
-   **moderatore** su quello spazio. Serve un'email dedicata (es.
-   `community@feniceacademysrl.com`).
-3. **Il nome/persona** del moderatore (vedi `playbook.md` §1).
-4. **La FAQ minima.** Bastano 5-6 risposte in `faq.md` per partire; il resto si
+1. **Lo spazio community → INFO UTILI** (ID `2499840`, gruppo "Parti da qui!").
+   Non serve crearne uno nuovo. Lo spazio è **già pubblico** (non privato, non
+   nascosto). Unica modifica: **abilitare i post dei membri** (oggi
+   `is_post_disabled: true` → i membri possono solo leggere). Il video di benvenuto
+   resta pinnato in cima; i post dei membri gli vanno sotto.
+2. **L'account del bot → "Guido".** Il moderatore ha bisogno di un profilo Circle
+   dedicato (nome "Guido", email dedicata, avatar) con ruolo di **moderatore** su
+   INFO UTILI.
+   - **Autore dei contenuti:** i *post* si possono pubblicare a nome di un membro
+     (parametro `user_email`). I *commenti*, con il connettore attuale, **non**
+     hanno un campo autore: verrebbero attribuiti all'account con cui è collegato
+     il connettore. Poiché un moderatore risponde soprattutto via commenti, la
+     soluzione pulita è **collegare il connettore Circle usando il token
+     dell'account Guido** (Admin API), così ogni azione risulta di Guido.
+3. **La FAQ minima.** Bastano 5-6 risposte in `faq.md` per partire; il resto si
    aggiunge vivendo la community.
-5. **La schedulazione.** Impostare la Routine 2-3 volte al giorno (es. 9:00, 14:00,
-   19:00).
+4. **La schedulazione.** Routine 1 volta al giorno in avvio (poi eventualmente 2-3).
 
 ## Fasi consigliate (community mai testata)
 
