@@ -47,9 +47,9 @@ Routine schedulata  ──►  Agente AI  ──►  API Circle
    nascosto). Unica modifica: **abilitare i post dei membri** (oggi
    `is_post_disabled: true` → i membri possono solo leggere). Il video di benvenuto
    resta pinnato in cima; i post dei membri gli vanno sotto.
-2. **L'account del bot → "Guido".** Il moderatore ha bisogno di un profilo Circle
-   dedicato (nome "Guido", email dedicata, avatar) con ruolo di **moderatore** su
-   INFO UTILI.
+2. **L'account del bot → "Guido".** Si usa un'**email già esistente** (es.
+   `tutor@feniceacademysrl.com`, da confermare) con **nome visualizzato "Guido"**
+   e ruolo di **moderatore** su INFO UTILI.
    - **Autore dei contenuti:** i *post* si possono pubblicare a nome di un membro
      (parametro `user_email`). I *commenti*, con il connettore attuale, **non**
      hanno un campo autore: verrebbero attribuiti all'account con cui è collegato
