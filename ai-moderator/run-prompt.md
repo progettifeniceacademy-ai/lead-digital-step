@@ -46,6 +46,9 @@ thread; tono e regole del playbook sempre.
 false`). Un post di Guido deve sempre poter ricevere commenti e like: senza, la
 community non può rispondere.
 
+**Autore:** il connettore Circle è collegato come Guido (admin), quindi post e
+commenti risultano già a suo nome. Nessun accorgimento speciale serve più.
+
 ---
 
 ## Come arriva l'approvazione a te (Federico)

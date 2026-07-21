@@ -50,12 +50,13 @@ Routine schedulata  ──►  Agente AI  ──►  API Circle
 2. **L'account del bot → "Guido".** Si usa un'**email già esistente** (es.
    `tutor@feniceacademysrl.com`, da confermare) con **nome visualizzato "Guido"**
    e ruolo di **moderatore** su INFO UTILI.
-   - **Autore dei contenuti:** i *post* si possono pubblicare a nome di un membro
-     (parametro `user_email`). I *commenti*, con il connettore attuale, **non**
-     hanno un campo autore: verrebbero attribuiti all'account con cui è collegato
-     il connettore. Poiché un moderatore risponde soprattutto via commenti, la
-     soluzione pulita è **collegare il connettore Circle usando il token
-     dell'account Guido** (Admin API), così ogni azione risulta di Guido.
+   - **Autore dei contenuti (RISOLTO ✅):** i *commenti* non hanno un campo
+     autore, quindi vengono attribuiti all'account del connettore. Soluzione
+     adottata: Guido è stato reso **Admin** della community e il connettore Circle
+     è collegato con il suo **token Admin API**. Così tutto (post e commenti)
+     risulta pubblicato da Guido. Verificato in produzione il 21/07.
+     Nota: serve un token **Admin API** (non un token member, che dà "Forbidden"
+     in scrittura).
 3. **La FAQ minima.** Bastano 5-6 risposte in `faq.md` per partire; il resto si
    aggiunge vivendo la community.
 4. **La schedulazione.** Routine **2 volte al giorno, alle 10:00 e 16:00 ora
