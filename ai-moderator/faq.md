@@ -59,10 +59,10 @@ lavorare sulla mentalità e restare motivati.
 [NOTA INTERNA: in futuro anche la community Mindset verrà automatizzata.]
 
 **D: Con chi parlo per un problema tecnico o amministrativo?**
-R: Scrivi a **direzione@feniceacademysrl.com** e ti seguiamo.
+R: Scrivi a **direzione@feniceacademy.it** e ti seguiamo.
 
 **D: Rimborsi, pagamenti, fatture?**
-R: Sempre a **direzione@feniceacademysrl.com**: se ne occupa **Giulia**
+R: Sempre a **direzione@feniceacademy.it**: se ne occupa **Giulia**
 (amministrazione).
 
 **D: Come funzionano le call / il coaching con Giulia?**
@@ -92,7 +92,7 @@ blocchi mentali — mai come spinta commerciale, mai a freddo.]
 
 ## Argomenti sempre da girare a un umano (Escalation)
 
-- Rimborsi, pagamenti, fatture, questioni contrattuali → direzione@feniceacademysrl.com
+- Rimborsi, pagamenti, fatture, questioni contrattuali → direzione@feniceacademy.it
 - Consulenza fiscale/legale specifica
 - Situazioni personali delicate o di disagio
 - Reclami e lamentele
