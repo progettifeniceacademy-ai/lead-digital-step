@@ -1,13 +1,12 @@
 /**
- * Suggeritore Bozze Fenice — versione AI (Google Gemini)
+ * Suggeritore Bozze Fenice — versione AI (Google Gemini), 1 clic
  * ------------------------------------------------------------
- * Apri la mail di un'azienda, clicchi la bustina e clicchi "Scrivi la bozza":
- * l'AI legge la mail e scrive la BOZZA di risposta nel tuo stile, come bozza
- * dentro alla conversazione. Se la mail è fuori dai casi che conosce, NON
- * inventa: te lo dice ("Non ho una risposta pronta").
+ * Apri la mail di un'azienda e clicchi la bustina ✉️ a destra: l'AI legge la
+ * mail e scrive SUBITO la bozza di risposta nel tuo stile, come bozza dentro
+ * alla conversazione. Nessun altro pulsante da cliccare.
  *
- * L'invio è SEMPRE tuo e manuale: il componente crea solo la bozza, non manda
- * mai niente.
+ * Se la mail è fuori dai casi che conosce, NON inventa: te lo dice ("Non ho una
+ * risposta pronta"). L'invio è SEMPRE tuo e manuale: crea solo la bozza.
  *
  * Serve una chiave Gemini gratuita salvata nelle Proprietà script come
  * GEMINI_API_KEY (vedi README).
@@ -17,8 +16,7 @@
 var MODELLO = 'gemini-2.0-flash'; // se dà errore di modello, prova 'gemini-1.5-flash'
 
 // =============================================================
-//  CONOSCENZA / STILE DI MARTA (è qui il "cervello" della risposta)
-//  Modifica questo testo per cambiare come risponde l'AI.
+//  CONOSCENZA / STILE DI MARTA (il "cervello" della risposta)
 // =============================================================
 var ISTRUZIONI =
   'Sei l\'assistente email di Marta Fanduzza, che gestisce le collaborazioni per ' +
@@ -75,43 +73,24 @@ var ISTRUZIONI =
   'niente virgolette, nessun commento o spiegazione tua.';
 
 // =============================================================
-//  SCHEDA (quando apri il componente su una mail)
+//  1 CLIC: apri la bustina → legge la mail → crea la bozza
 // =============================================================
 function onGmailMessageOpen(e) {
-  var section = CardService.newCardSection();
-  section.addWidget(CardService.newTextParagraph().setText(
-    'Clicca qui sotto: leggo questa mail e scrivo la bozza di risposta nel tuo stile, ' +
-    'come bozza nella conversazione. La rileggi e la invii tu.'));
-  section.addWidget(CardService.newTextButton()
-    .setText('✍️  Scrivi la bozza di risposta')
-    .setTextButtonStyle(CardService.TextButtonStyle.FILLED)
-    .setOnClickAction(CardService.newAction().setFunctionName('scriviBozza')));
-
-  return [CardService.newCardBuilder()
-    .setHeader(CardService.newCardHeader().setTitle('Suggeritore Bozze Fenice'))
-    .addSection(section)
-    .build()];
-}
-
-// =============================================================
-//  AZIONE: legge la mail, genera con l'AI, crea la bozza
-// =============================================================
-function scriviBozza(e) {
   try {
     GmailApp.setCurrentMessageAccessToken(e.gmail.accessToken);
     var message = GmailApp.getMessageById(e.gmail.messageId);
     var thread = message.getThread();
 
     if (_esisteBozzaNelThread(thread.getId())) {
-      return _schedaEsito('Bozza già presente 👇',
-        'C\'è già una bozza in fondo a questa conversazione. Rileggila e invia tu ' +
-        '(cancellala se vuoi rigenerarla).');
+      return [_scheda('Bozza già pronta 👇',
+        'C\'è già una bozza in fondo a questa conversazione. Rileggila e invia tu. ' +
+        'Per rigenerarla, cancella prima la vecchia bozza e riapri il componente.')];
     }
 
     var apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
     if (!apiKey) {
-      return _schedaEsito('Manca la chiave',
-        'Aggiungi la chiave GEMINI_API_KEY nelle Proprietà script (vedi README).');
+      return [_scheda('Manca la chiave',
+        'Aggiungi la chiave GEMINI_API_KEY nelle Proprietà script (vedi README).')];
     }
 
     var testoMail = _soloUltimaMail(message.getPlainBody() || '');
@@ -121,25 +100,24 @@ function scriviBozza(e) {
     var risposta = _generaConGemini(apiKey, oggetto, testoMail, nome);
 
     if (risposta && risposta.error) {
-      return _schedaEsito('Errore tecnico',
-        'L\'AI non ha risposto: ' + risposta.error + '\nRiprova tra poco o segnalamelo.');
+      return [_scheda('Errore tecnico', 'L\'AI non ha risposto: ' + risposta.error)];
     }
     if (!risposta || !risposta.testo) {
-      return _schedaEsito('Non riuscito',
-        'Non sono riuscito a generare la bozza. Riprova tra poco.');
+      return [_scheda('Non riuscito',
+        'Non sono riuscito a generare la bozza. Riprova richiudendo e riaprendo il componente.')];
     }
     if (risposta.testo.indexOf('NON_SO_RISPONDERE') !== -1) {
-      return _schedaEsito('⚠️ Non ho una risposta pronta',
+      return [_scheda('⚠️ Non ho una risposta pronta',
         'Questa mail esce dai casi che conosco: preferisco non inventare. ' +
-        'Rispondi tu a mano (e se è un caso ricorrente, dimmelo così te lo aggiungo).');
+        'Rispondi tu a mano (se è un caso ricorrente, dimmelo così te lo aggiungo).')];
     }
 
     message.createDraftReply(risposta.testo);
-    return _schedaEsito('✅ Bozza creata',
-      'La trovi in fondo alla conversazione. Rileggila, modificala e invia tu.');
+    return [_scheda('✅ Bozza creata',
+      'La trovi in fondo alla conversazione. Rileggila, modificala e invia tu.')];
 
   } catch (err) {
-    return _schedaEsito('Errore', 'Qualcosa è andato storto: ' + err.message);
+    return [_scheda('Errore', 'Qualcosa è andato storto: ' + err.message)];
   }
 }
 
@@ -171,17 +149,12 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
 
   var code = resp.getResponseCode();
   var body = resp.getContentText();
-  if (code !== 200) {
-    return { error: 'HTTP ' + code + ' — ' + body.slice(0, 300) };
-  }
+  if (code !== 200) return { error: 'HTTP ' + code + ' — ' + body.slice(0, 300) };
 
   try {
     var data = JSON.parse(body);
-    var testo = data.candidates &&
-      data.candidates[0] &&
-      data.candidates[0].content &&
-      data.candidates[0].content.parts &&
-      data.candidates[0].content.parts[0] &&
+    var testo = data.candidates && data.candidates[0] && data.candidates[0].content &&
+      data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
       data.candidates[0].content.parts[0].text;
     if (!testo) return { error: 'risposta vuota dal modello' };
     return { testo: testo.trim() };
@@ -193,26 +166,20 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
 // =============================================================
 //  AIUTANTI
 // =============================================================
-
-// Tiene solo l'ultima mail, taglia la cronologia citata sotto.
 function _soloUltimaMail(body) {
   var marcatori = [
-    /\nIl giorno .* ha scritto:/,
-    /\nOn .* wrote:/,
-    /\n-----Messaggio originale-----/,
-    /\n________________________________/,
-    /\nDa:\s/
+    /\nIl giorno .* ha scritto:/, /\nOn .* wrote:/,
+    /\n-----Messaggio originale-----/, /\n________________________________/,
+    /\nFrom:\s/, /\nDa:\s/
   ];
   var taglio = body.length;
   marcatori.forEach(function (re) {
     var m = body.match(re);
     if (m && m.index < taglio) taglio = m.index;
   });
-  var testo = body.slice(0, taglio).trim();
-  return testo.slice(0, 4000); // limite di sicurezza
+  return body.slice(0, taglio).trim().slice(0, 4000);
 }
 
-// Nome di battesimo dal campo "From"; se non leggibile torna "".
 function _primoNome(from) {
   if (!from) return '';
   var nome = from.replace(/<[^>]*>/, '').replace(/["']/g, '').trim();
@@ -222,38 +189,31 @@ function _primoNome(from) {
   return primo.charAt(0).toUpperCase() + primo.slice(1);
 }
 
-// C'è già una bozza in questo thread? (evita doppioni)
 function _esisteBozzaNelThread(threadId) {
   try {
     var drafts = GmailApp.getDrafts();
     for (var i = 0; i < drafts.length; i++) {
-      try {
-        if (drafts[i].getMessage().getThread().getId() === threadId) return true;
-      } catch (e) {}
+      try { if (drafts[i].getMessage().getThread().getId() === threadId) return true; } catch (e) {}
     }
   } catch (e) {}
   return false;
 }
 
+function _scheda(titolo, testo) {
+  var section = CardService.newCardSection()
+    .addWidget(CardService.newTextParagraph().setText('<b>' + titolo + '</b>'))
+    .addWidget(CardService.newTextParagraph().setText(testo));
+  return CardService.newCardBuilder()
+    .setHeader(CardService.newCardHeader().setTitle('Suggeritore Bozze Fenice'))
+    .addSection(section)
+    .build();
+}
+
 /**
  * Eseguila UNA volta dall'editor (menu Esegui) per concedere l'autorizzazione a
- * contattare internet (serve per chiamare Gemini). Dopo il consenso puoi anche
- * ignorarla: serve solo la prima volta.
+ * contattare internet (serve per chiamare Gemini). Dopo, puoi ignorarla.
  */
 function autorizza() {
   UrlFetchApp.fetch('https://www.google.com');
   GmailApp.getInboxUnreadCount();
-}
-
-function _schedaEsito(titolo, testo) {
-  var section = CardService.newCardSection()
-    .addWidget(CardService.newTextParagraph().setText('<b>' + titolo + '</b>'))
-    .addWidget(CardService.newTextParagraph().setText(testo));
-  return CardService.newActionResponseBuilder()
-    .setNavigation(CardService.newNavigation().updateCard(
-      CardService.newCardBuilder()
-        .setHeader(CardService.newCardHeader().setTitle('Suggeritore Bozze Fenice'))
-        .addSection(section)
-        .build()))
-    .build();
 }
