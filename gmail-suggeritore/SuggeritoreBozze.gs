@@ -235,6 +235,16 @@ function _esisteBozzaNelThread(threadId) {
   return false;
 }
 
+/**
+ * Eseguila UNA volta dall'editor (menu Esegui) per concedere l'autorizzazione a
+ * contattare internet (serve per chiamare Gemini). Dopo il consenso puoi anche
+ * ignorarla: serve solo la prima volta.
+ */
+function autorizza() {
+  UrlFetchApp.fetch('https://www.google.com');
+  GmailApp.getInboxUnreadCount();
+}
+
 function _schedaEsito(titolo, testo) {
   var section = CardService.newCardSection()
     .addWidget(CardService.newTextParagraph().setText('<b>' + titolo + '</b>'))
