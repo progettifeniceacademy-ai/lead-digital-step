@@ -43,6 +43,10 @@ progetti pratici**.
 [NOTA INTERNA: i progetti pratici vengono inviati via mail una volta che la persona
 ha completato e superato l'esame.]
 
+**D: Come funziona l'esame / dove trovo le istruzioni?**
+R: Tutte le indicazioni sull'esame (come funziona e come affrontarlo) le trovi
+**dentro all'ultimo modulo del corso**.
+
 **D: Che differenza c'è tra i corsi "ABC | X" e i corsi "X"?**
 R: I corsi **ABC** sono un estratto del corso principale, pensati per capire se
 quella professione fa davvero per te / orientarti. Il **corso principale** è invece
