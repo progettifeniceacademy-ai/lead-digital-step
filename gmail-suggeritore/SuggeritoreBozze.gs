@@ -1,129 +1,102 @@
 /**
  * Suggeritore Bozze Fenice — componente aggiuntivo di Gmail
  * ------------------------------------------------------------
- * Aggiunge un pulsante nella barra laterale di Gmail. Quando apri la risposta
- * di un'azienda e clicchi, ti crea la BOZZA di risposta dentro al thread, nel
- * tuo stile. Non invia mai niente: prepara solo la bozza, che tu leggi,
- * sistemi (soprattutto gli orari) e invii con un click.
+ * Mentre stai SCRIVENDO una risposta, apri il componente e con un click il testo
+ * viene inserito DIRETTAMENTE nella mail che stai scrivendo (non crea bozze
+ * separate: niente da cercare nella cartella Bozze). Poi controlli, sistemi nome
+ * e orari, e invii tu.
  *
- * Come funziona:
- *  - onGmailMessageOpen(e) → disegna la scheda con i pulsanti quando apri una mail.
- *    Legge la mail aperta e "indovina" quale delle 3 risposte serve, mettendola
- *    per prima come consigliata. Tu puoi comunque scegliere qualsiasi pulsante.
- *  - I 3 pulsanti creano la bozza corrispondente:
- *      1) INTERESSATO      → ringrazi e proponi tu una call con 2 fasce orarie
- *      2) SPIEGAZIONE      → spieghi cos'è la collaborazione (non è stage/tirocinio)
- *                            e chiudi proponendo una call
- *      3) LORO LINK        → l'azienda ti ha mandato un suo link: confermi che prenoti
+ * I testi sono ricostruiti dalle risposte vere di Marta. Quattro casi ricorrenti:
+ *   ① INTERESSATO   → ringrazi, proponi tu la call con le tue disponibilità,
+ *                     chiedi un recapito telefonico, mandi poi il Meet
+ *   ② SPIEGAZIONE   → spieghi che non sono stage/tirocini ma proseguimenti di
+ *                     percorso, e chiudi proponendo una call
+ *   ③ ZONA          → l'azienda vuole gente solo in loco e non ne hai in zona:
+ *                     tieni il contatto in database
+ *   ④ LORO LINK     → l'azienda ti ha mandato un suo link di prenotazione
  *
- * Preferenze impostate:
- *  - firma "MF"
- *  - sempre del "lei"
- *  - puoi scrivere le fasce orarie nel campo in alto e finiscono già nella bozza
+ * Preferenze: firma "MF", sempre del "lei".
  * ------------------------------------------------------------
  */
 
 // =============================================================
 //  I TUOI TESTI (modelli pronti) — modificali pure a piacere
 // =============================================================
-// Segnaposto disponibili:
-//   [SALUTO]  → "Buongiorno Marco" (o solo "Buongiorno" se non c'è il nome)
-//   [SLOT]    → le fasce orarie che scrivi nel campo, oppure un promemoria
+// Segnaposto:
+//   [SALUTO] → "Buongiorno Giacomo" (o solo "Buongiorno" se non scrivi il nome)
+//   [SLOT]   → le disponibilità che scrivi nel campo (solo dove serve)
 var TESTO = {
   interessato:
-    '[SALUTO],\n' +
-    'grazie mille per il riscontro, mi fa piacere!\n\n' +
-    'Volentieri organizziamo una breve call per approfondire e valutare insieme ' +
-    'una possibile collaborazione. Le propongo [SLOT]: mi faccia sapere quale ' +
-    'preferisce e le invio subito l’invito.\n\n' +
-    'Resto in attesa di un suo riscontro, a presto!\n' +
+    '[SALUTO], con molto piacere!\n\n' +
+    'Per una breve call di circa 15 minuti io sarei disponibile [SLOT]. Mi faccia ' +
+    'sapere quale preferisce e le mando subito l’invito con il link del Meet.\n' +
+    'Le chiederei intanto anche un recapito telefonico.\n\n' +
+    'A presto e grazie,\n' +
     'MF',
 
   spiegazione:
-    '[SALUTO], molto piacere.\n\n' +
-    'Le rispondo volentieri: non si tratta di stage curricolari o extracurricolari, ' +
-    'ma di proseguimenti di percorsi formativi in cui agli studenti vengono affidate ' +
-    'delle task più operative, senza retribuzione e senza necessità di attivare ' +
-    'tirocini o consulenti del lavoro. È un modo per applicare quanto hanno imparato ' +
-    'e, per voi, per testare una risorsa che — se vi convince — potete poi ' +
-    'trattenere, proponendole a quel punto qualcosa di più strutturato.\n\n' +
-    'Se le fa piacere, fissiamo una breve call così le spiego tutto nel dettaglio: ' +
-    'le propongo [SLOT].\n\n' +
+    '[SALUTO],\n\n' +
+    'i nostri non sono stage curricolari o extracurricolari, sono proseguimenti di ' +
+    'percorsi formativi in cui vengono delegate agli studenti delle task più operative ' +
+    'senza una retribuzione: è un modo per applicare quanto hanno imparato e, per voi, ' +
+    'per testare delle risorse che se poi vi piacciono potete tenere (proponendo a quel ' +
+    'punto anche qualcosa di più strutturato). Per questo non è necessario attivare ' +
+    'tirocini, stage o consulenti del lavoro.\n\n' +
+    'Se le fa piacere possiamo organizzare una breve call così le spiego tutto nel ' +
+    'dettaglio: io sarei disponibile [SLOT].\n\n' +
     'Attendo un suo riscontro, grazie mille!\n' +
     'MF',
 
-  link:
-    '[SALUTO],\n' +
-    'grazie mille per il riscontro! Perfetto, prenoto una fascia tramite il vostro link.\n\n' +
+  zona:
+    '[SALUTO],\n\n' +
+    'la ringrazio! Al momento purtroppo non ho studenti disponibili nella vostra zona. ' +
+    'Se per voi va bene tengo il vostro contatto in database e vi riaggiorno non appena ' +
+    'avrò delle risorse in zona.\n\n' +
     'A presto e grazie,\n' +
+    'MF',
+
+  link:
+    '[SALUTO],\n\n' +
+    'perfetto, grazie mille! Prenoto subito una fascia tramite il vostro link.\n\n' +
+    'A presto,\n' +
     'MF'
 };
 
-// Cosa scrivere in [SLOT] se il campo "fasce orarie" è vuoto.
-var SLOT_PROMEMORIA = '«[inserisci 2 fasce, es. giovedì 24/07 ore 15:00 oppure venerdì 25/07 ore 10:30]»';
+// Cosa scrivere in [SLOT] se lasci vuoto il campo "Disponibilità".
+var SLOT_PROMEMORIA = '«[inserisci qui le tue disponibilità, es. mer 23 dalle 9 alle 11.30 – gio 24 dalle 14 alle 18]»';
 
 // =============================================================
-//  SCHEDA (quello che vedi quando apri una mail)
+//  SCHEDA (quando apri il componente mentre scrivi una risposta)
 // =============================================================
-function onGmailMessageOpen(e) {
-  var testoMail = '';
-  try {
-    GmailApp.setCurrentMessageAccessToken(e.gmail.accessToken);
-    testoMail = GmailApp.getMessageById(e.gmail.messageId).getPlainBody() || '';
-  } catch (err) {
-    testoMail = '';
-  }
-
-  var consigliato = _indovinaScenario(testoMail); // 'interessato' | 'spiegazione' | 'link'
-  return [_costruisciScheda(consigliato)];
-}
-
-// Scheda mostrata quando apri il componente dalla home (senza una mail aperta).
-function onHomepage(e) {
-  var card = CardService.newCardBuilder()
-    .setHeader(CardService.newCardHeader().setTitle('Suggeritore Bozze Fenice'))
-    .addSection(CardService.newCardSection().addWidget(
-      CardService.newTextParagraph().setText(
-        'Apri la risposta di un’azienda e qui compariranno i pulsanti per ' +
-        'creare la bozza pronta. Ricordati: la bozza non viene mai inviata, la ' +
-        'invii sempre tu.')))
-    .build();
-  return [card];
-}
-
-function _costruisciScheda(consigliato) {
-  var etichette = {
-    interessato: 'Bozza: interessato + proponi call',
-    spiegazione: 'Bozza: spiega la collaborazione',
-    link: 'Bozza: prenoto col vostro link'
-  };
-  var nomiScenari = { interessato: 'Interessato', spiegazione: 'Spiegazione', link: 'Loro link' };
-
+function onComposeOpen(e) {
   var section = CardService.newCardSection();
 
   section.addWidget(CardService.newTextParagraph().setText(
-    'Risposta che sembra più adatta: <b>' + nomiScenari[consigliato] + '</b>. ' +
-    'Puoi comunque scegliere qualsiasi pulsante.'));
+    'Scegli la risposta: il testo entra <b>dentro la mail che stai scrivendo</b>.'));
 
-  // Campo per le fasce orarie (facoltativo): finisce dentro la bozza.
+  section.addWidget(CardService.newTextInput()
+    .setFieldName('nome')
+    .setTitle('Nome referente (facoltativo)')
+    .setHint('es. Giacomo — se vuoto scrive solo “Buongiorno,”'));
+
   section.addWidget(CardService.newTextInput()
     .setFieldName('slots')
-    .setTitle('Fasce orarie da proporre (facoltativo)')
-    .setHint('es. gio 24/07 ore 15:00 oppure ven 25/07 ore 10:30'));
+    .setTitle('Disponibilità da proporre (facoltativo)')
+    .setHint('es. mer 23 dalle 9 alle 11.30 – gio 24 dalle 14 alle 18'));
 
-  // Ordino i pulsanti: prima quello consigliato.
-  var ordine = [consigliato].concat(['interessato', 'spiegazione', 'link'].filter(function (k) {
-    return k !== consigliato;
-  }));
+  var bottoni = [
+    { chiave: 'interessato', testo: '①  Interessato → proponi call' },
+    { chiave: 'spiegazione', testo: '②  Spiega la collaborazione' },
+    { chiave: 'zona',        testo: '③  Non è della vostra zona (database)' },
+    { chiave: 'link',        testo: '④  Prenoto col vostro link' }
+  ];
 
-  ordine.forEach(function (chiave, i) {
-    var testoBottone = etichette[chiave] + (i === 0 ? '  ⭐' : '');
+  bottoni.forEach(function (b) {
     section.addWidget(CardService.newTextButton()
-      .setText(testoBottone)
-      .setTextButtonStyle(i === 0 ? CardService.TextButtonStyle.FILLED : CardService.TextButtonStyle.TEXT)
+      .setText(b.testo)
       .setOnClickAction(CardService.newAction()
-        .setFunctionName('creaBozza')
-        .setParameters({ scenario: chiave })));
+        .setFunctionName('inserisciTesto')
+        .setParameters({ scenario: b.chiave })));
   });
 
   return CardService.newCardBuilder()
@@ -133,71 +106,28 @@ function _costruisciScheda(consigliato) {
 }
 
 // =============================================================
-//  AZIONE: crea la bozza (la chiamano tutti e 3 i pulsanti)
+//  AZIONE: inserisce il testo scelto DENTRO la risposta aperta
 // =============================================================
-function creaBozza(e) {
+function inserisciTesto(e) {
   var scenario = e.parameters.scenario;
+  var nome = (e.formInput && e.formInput.nome) ? String(e.formInput.nome).trim() : '';
   var slot = (e.formInput && e.formInput.slots) ? String(e.formInput.slots).trim() : '';
 
-  try {
-    GmailApp.setCurrentMessageAccessToken(e.gmail.accessToken);
-    var message = GmailApp.getMessageById(e.gmail.messageId);
+  var saluto = nome
+    ? ('Buongiorno ' + nome.charAt(0).toUpperCase() + nome.slice(1))
+    : 'Buongiorno';
 
-    var saluto = _saluto(message.getFrom());
-    var corpo = TESTO[scenario]
-      .replace('[SALUTO]', saluto)
-      .replace('[SLOT]', slot || SLOT_PROMEMORIA);
+  var corpo = TESTO[scenario]
+    .replace('[SALUTO]', saluto)
+    .replace('[SLOT]', slot || SLOT_PROMEMORIA);
 
-    message.createDraftReply(corpo);
+  var html = corpo.replace(/\n/g, '<br>');
 
-    return _notifica('Bozza creata! La trovi in fondo al thread, pronta da controllare e inviare.');
-  } catch (err) {
-    return _notifica('Non sono riuscito a creare la bozza: ' + err.message);
-  }
-}
+  var azione = CardService.newUpdateDraftBodyAction()
+    .addUpdateContent(html, CardService.ContentType.MUTABLE_HTML)
+    .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT);
 
-// =============================================================
-//  AIUTANTI
-// =============================================================
-
-// "Buongiorno Marco" prendendo il nome dal mittente; se non c'è, solo "Buongiorno".
-function _saluto(from) {
-  var nome = _primoNome(from);
-  return nome ? ('Buongiorno ' + nome) : 'Buongiorno';
-}
-
-// Estrae il nome di battesimo dal campo "From" (es. "Marco Rossi <m@x.it>" → "Marco").
-// Se il mittente non ha un nome leggibile (es. "info@azienda.it"), torna "".
-function _primoNome(from) {
-  if (!from) return '';
-  var nome = from.replace(/<[^>]*>/, '').replace(/["']/g, '').trim();
-  if (!nome || nome.indexOf('@') !== -1) return '';
-  var primo = nome.split(/\s+/)[0];
-  // Evita nomi "aziendali" tutti maiuscoli o palesemente non-nomi.
-  if (primo.length < 2) return '';
-  return primo.charAt(0).toUpperCase() + primo.slice(1);
-}
-
-// Indovina quale risposta serve leggendo il testo della mail dell'azienda.
-function _indovinaScenario(testo) {
-  var t = (testo || '').toLowerCase();
-
-  // 1) L'azienda ha mandato un SUO link di prenotazione?
-  if (/calendar\.app\.google|calendly\.com|cal\.com|hubspot|outlook\.office|prenot\w*\s+un\s+appuntamento|tramite\s+questo\s+link|questo\s+link:/.test(t)) {
-    return 'link';
-  }
-
-  // 2) Ha fatto una domanda/obiezione tipica (serve la spiegazione)?
-  if (/curricolar|extracurricolar|vincolant|in\s+presenza|retribu|rimbors|tirocin|\bstage\b|consulente\s+del\s+lavoro|come\s+funziona|maggiori\s+(info|informazioni)|più\s+(info|dettagli)|che\s+cosa|di\s+cosa\s+si\s+tratta|contratto/.test(t)) {
-    return 'spiegazione';
-  }
-
-  // 3) Altrimenti: interessato, proponi la call.
-  return 'interessato';
-}
-
-function _notifica(testo) {
-  return CardService.newActionResponseBuilder()
-    .setNotification(CardService.newNotification().setText(testo))
+  return CardService.newComposeActionResponseBuilder()
+    .setUpdateDraftBodyAction(azione)
     .build();
 }

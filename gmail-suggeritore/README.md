@@ -1,72 +1,64 @@
-# Suggeritore Bozze Fenice — il tuo pulsante dentro Gmail
+# Suggeritore Bozze Fenice — scrive la risposta dentro Gmail
 
-Aggiunge un'icona nella **barra laterale destra di Gmail**. Apri la risposta di
-un'azienda, clicchi un pulsante e ti compare la **bozza di risposta già scritta**
-nel thread, nel tuo stile. **Non invia mai niente**: prepara solo la bozza, che
-tu leggi, sistemi (soprattutto gli orari) e invii tu con un click.
+Componente aggiuntivo di Gmail. **Mentre scrivi una risposta**, apri il componente
+e con un click il testo entra **direttamente nella mail che stai scrivendo** — non
+crea bozze separate da cercare. Poi controlli, sistemi nome e orari, e invii tu.
 
-Copre le tre risposte che scrivi sempre:
+I testi sono ricostruiti dalle risposte vere di Marta. Quattro casi ricorrenti:
 
 | Pulsante | Quando | Cosa scrive |
 |---|---|---|
-| **Interessato + call** | l'azienda è interessata | ringrazi e proponi tu una call con 2 fasce orarie |
-| **Spiega la collaborazione** | ti fanno una domanda ("è curricolare? in presenza? vincolante?") | spieghi che non è stage/tirocinio, non serve consulente del lavoro, è un proseguimento del percorso, e chiudi proponendo una call |
-| **Prenoto col vostro link** | l'azienda ti manda un suo link (Calendar/Calendly) | confermi che prenoti tramite il loro link |
+| **① Interessato → call** | l'azienda è interessata | ringrazi, proponi la call con le tue disponibilità, chiedi un recapito telefonico, mandi poi il Meet |
+| **② Spiega la collaborazione** | domanda/obiezione ("è curricolare? vincolante?") | "i nostri non sono stage... sono proseguimenti di percorsi formativi..." + proponi call |
+| **③ Non è della vostra zona** | vogliono gente solo in loco e non ne hai in zona | tieni il contatto in database e li riaggiorni |
+| **④ Prenoto col vostro link** | ti mandano un loro link (Calendar/Calendly) | confermi che prenoti tramite il loro link |
 
-Quando apri una mail, il componente **indovina da solo** quale delle tre serve e
-la mette per prima (con la ⭐). Tu puoi comunque scegliere qualsiasi pulsante.
+Nella scheda ci sono due campi facoltativi: **Nome referente** e **Disponibilità**.
+Se li compili finiscono già nel testo; se li lasci vuoti trovi un promemoria da
+riempire al volo dentro la mail.
 
-## Installazione (una volta sola, ~15 minuti)
+## Installazione / aggiornamento
 
-Serve fatta da te perché Google richiede che sia il proprietario dell'account a
-dare l'ok. Sono clic, niente di tecnico.
+Se è la prima volta, o se stai aggiornando da una versione precedente:
 
-1. Vai su **script.google.com** → **Nuovo progetto**.
-2. Dai un nome al progetto in alto a sinistra, es. *Suggeritore Bozze*.
-3. **Incolla il codice:**
-   - Nel file `Codice.gs` che trovi già aperto, cancella tutto e incolla il
-     contenuto di **`SuggeritoreBozze.gs`** (questo repository).
-4. **Incolla il manifest:**
-   - In alto a sinistra icona **ingranaggio → Impostazioni progetto** e spunta
-     *«Mostra il file manifest appsscript.json nell'editor»*.
-   - Torni all'editor: comparirà il file **`appsscript.json`**. Aprilo, cancella
-     tutto e incolla il contenuto di **`appsscript.json`** (questo repository).
-5. Salva (icona floppy / `Ctrl+S`).
-6. **Prova (Deploy di test):** in alto a destra **Esegui il deployment →
-   Prova deployment** → tipo **Componente aggiuntivo di Gmail** → **Installa**.
-   Google ti chiede di autorizzare: accetta i permessi (vedi nota sotto).
-7. **Apri Gmail** (ricarica la pagina). Sulla barra laterale destra compare
-   l'icona del componente. Apri la risposta di un'azienda, clicca l'icona → escono
-   i pulsanti.
+1. Su **script.google.com** apri il progetto **Suggeritore Bozze** (o creane uno nuovo).
+2. **`Codice.gs`**: cancella tutto e incolla il contenuto di `SuggeritoreBozze.gs`.
+3. **`appsscript.json`** (se non lo vedi: ingranaggio ⚙️ → spunta *"Mostra il file
+   manifest appsscript.json nell'editor"*): cancella tutto e incolla il contenuto
+   di `appsscript.json`.
+4. Salva (💾).
+5. **Esegui il deployment → Verifica deployment**. Se risulta già installato clicca
+   **Disinstalla** e poi **Installa** di nuovo (serve perché sono cambiati i
+   permessi). **Fine**.
+6. Ricarica Gmail. La prima volta che usi il componente ti chiede di **autorizzare**:
+   accetta (Avanzate → Consenti).
 
-Fatto. Da qui in poi è sempre lì.
+## Come si usa
 
-## Come si usa ogni giorno
+1. Apri la mail dell'azienda e clicca **Rispondi** (si apre il riquadro di risposta).
+2. Nella **barra in basso del riquadro di risposta** clicca l'icona del componente
+   (la bustina ✉️ tra le icone degli allegati/add-on).
+3. (Facoltativo) scrivi **Nome referente** e **Disponibilità**.
+4. Clicca il pulsante del caso giusto (①–④): il testo compare **nella risposta**.
+5. Controlli, sistemi, e invii tu.
 
-1. Apri in Gmail la mail dell'azienda a cui vuoi rispondere.
-2. Clicca l'icona **Suggeritore Bozze** nella barra a destra.
-3. (Facoltativo) scrivi le **fasce orarie** nel campo in alto.
-4. Clicca il pulsante consigliato (⭐) o quello che preferisci.
-5. In fondo al thread trovi la **bozza**: controlli, sistemi gli orari, invii tu.
+## Note
 
-## Sui permessi che Google chiede
-
-In fase di autorizzazione Google scrive *«Gestione di bozze e invio di email»*.
-È il permesso standard per **creare le bozze**. Il componente **non contiene
-nessun codice che invia mail**: crea solo bozze. Puoi verificarlo nel file
-`SuggeritoreBozze.gs` (cerca `send`: non c'è).
-
-## Due cose da sapere (piccole)
-
-- **La firma con immagine.** Le bozze create in automatico finiscono con **"MF"**
-  ma **non** riportano da sole la tua firma-immagine in calce (Gmail la aggiunge
-  solo quando scrivi a mano). Quando apri la bozza per inviarla puoi aggiungerla,
-  oppure — se preferisci — posso mettere una firma testuale fissa nel modello.
-- **Del "lei".** I testi danno sempre del lei. Se un'azienda ti dà del tu e vuoi
-  rispondere a tono, basta che sistemi la bozza prima di inviare.
+- **Firma-immagine.** Il testo finisce con "MF"; la tua firma-immagine in calce la
+  aggiunge Gmail come sempre quando scrivi a mano (il componente non la tocca).
+- **Del "lei".** I testi danno del lei; se ti danno del tu, sistemi prima di inviare.
+- **Permessi.** Il componente usa solo il permesso per *inserire testo nella
+  risposta che stai scrivendo*. Non legge le altre mail e non invia niente.
 
 ## Modificare i testi
 
-I tre modelli sono all'inizio di `SuggeritoreBozze.gs`, nella variabile `TESTO`.
-Puoi cambiarli quando vuoi: dopo la modifica salva e ricarica Gmail. I segnaposto
-`[SALUTO]` e `[SLOT]` vengono riempiti in automatico.
+I quattro modelli sono all'inizio di `SuggeritoreBozze.gs`, nella variabile `TESTO`.
+Cambiali quando vuoi: salva e ricarica Gmail. I segnaposto `[SALUTO]` e `[SLOT]`
+si riempiono da soli.
+
+## Vuoi che si adatti da sola a ogni mail?
+
+Questa è la versione a **modelli fissi** (gratis, immediata, affidabile). Se un
+domani vuoi che il testo venga *scritto su misura* leggendo la singola mail, si può
+collegare Claude (AI): stessa interfaccia, ma serve una chiave API a pagamento
+(pochi centesimi a mail). Il codice è predisposto per aggiungerla in seguito.
