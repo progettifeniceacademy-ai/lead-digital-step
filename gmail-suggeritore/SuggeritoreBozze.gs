@@ -215,5 +215,4 @@ function _scheda(titolo, testo) {
  */
 function autorizza() {
   UrlFetchApp.fetch('https://www.google.com');
-  GmailApp.getInboxUnreadCount();
 }
