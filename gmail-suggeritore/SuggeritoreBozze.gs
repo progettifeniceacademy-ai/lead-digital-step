@@ -126,16 +126,6 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
     'Ecco la mail dell\'azienda a cui rispondere:\n---\n' + testoMail + '\n---\n\n' +
     'Scrivi la bozza di risposta di Marta.';
 
-  var payload = {
-    systemInstruction: { parts: [{ text: ISTRUZIONI }] },
-    contents: [{ role: 'user', parts: [{ text: promptUtente }] }],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 700 }
-  };
-  var opzioni = {
-    method: 'post', contentType: 'application/json',
-    payload: JSON.stringify(payload), muteHttpExceptions: true
-  };
-
   // Provo prima il modello che ha già funzionato l'ultima volta (più veloce),
   // poi gli altri come riserva.
   var props = PropertiesService.getScriptProperties();
@@ -148,6 +138,19 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
   var ultimo = '';
   var quotaPiena = false;
   for (var i = 0; i < lista.length; i++) {
+    // Spazio ampio per il testo; sui modelli 2.5 disattivo il "ragionamento"
+    // (altrimenti si mangia lo spazio e tronca la risposta).
+    var genConfig = { temperature: 0.4, maxOutputTokens: 2048 };
+    if (/2\.5|latest/.test(lista[i])) genConfig.thinkingConfig = { thinkingBudget: 0 };
+    var payload = {
+      systemInstruction: { parts: [{ text: ISTRUZIONI }] },
+      contents: [{ role: 'user', parts: [{ text: promptUtente }] }],
+      generationConfig: genConfig
+    };
+    var opzioni = {
+      method: 'post', contentType: 'application/json',
+      payload: JSON.stringify(payload), muteHttpExceptions: true
+    };
     var url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
       lista[i] + ':generateContent?key=' + encodeURIComponent(apiKey);
     var resp = UrlFetchApp.fetch(url, opzioni);
