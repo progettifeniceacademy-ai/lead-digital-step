@@ -13,7 +13,9 @@
  * ------------------------------------------------------------
  */
 
-var MODELLO = 'gemini-2.0-flash'; // se dà errore di modello, prova 'gemini-1.5-flash'
+// Prova questi modelli in ordine, usa il primo che risponde (per aggirare i
+// limiti di quota gratuita di un singolo modello).
+var MODELLI = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-1.5-flash'];
 
 // =============================================================
 //  CONOSCENZA / STILE DI MARTA (il "cervello" della risposta)
@@ -125,9 +127,6 @@ function onGmailMessageOpen(e) {
 //  CHIAMATA A GEMINI
 // =============================================================
 function _generaConGemini(apiKey, oggetto, testoMail, nome) {
-  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
-    MODELLO + ':generateContent?key=' + encodeURIComponent(apiKey);
-
   var promptUtente =
     'Referente (se noto): ' + (nome || '(non indicato)') + '\n' +
     'Oggetto della mail: ' + oggetto + '\n\n' +
@@ -139,28 +138,42 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
     contents: [{ role: 'user', parts: [{ text: promptUtente }] }],
     generationConfig: { temperature: 0.4, maxOutputTokens: 700 }
   };
+  var opzioni = {
+    method: 'post', contentType: 'application/json',
+    payload: JSON.stringify(payload), muteHttpExceptions: true
+  };
 
-  var resp = UrlFetchApp.fetch(url, {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify(payload),
-    muteHttpExceptions: true
-  });
+  var ultimo = '';
+  var quotaPiena = false;
+  for (var i = 0; i < MODELLI.length; i++) {
+    var url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
+      MODELLI[i] + ':generateContent?key=' + encodeURIComponent(apiKey);
+    var resp = UrlFetchApp.fetch(url, opzioni);
+    var code = resp.getResponseCode();
+    var body = resp.getContentText();
 
-  var code = resp.getResponseCode();
-  var body = resp.getContentText();
-  if (code !== 200) return { error: 'HTTP ' + code + ' — ' + body.slice(0, 300) };
-
-  try {
-    var data = JSON.parse(body);
-    var testo = data.candidates && data.candidates[0] && data.candidates[0].content &&
-      data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
-      data.candidates[0].content.parts[0].text;
-    if (!testo) return { error: 'risposta vuota dal modello' };
-    return { testo: testo.trim() };
-  } catch (err) {
-    return { error: 'risposta non leggibile' };
+    if (code === 200) {
+      try {
+        var data = JSON.parse(body);
+        var testo = data.candidates && data.candidates[0] && data.candidates[0].content &&
+          data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
+          data.candidates[0].content.parts[0].text;
+        if (testo) return { testo: testo.trim() };
+        ultimo = 'risposta vuota (' + MODELLI[i] + ')';
+      } catch (err) {
+        ultimo = 'risposta non leggibile (' + MODELLI[i] + ')';
+      }
+    } else {
+      if (code === 429) quotaPiena = true;
+      ultimo = 'HTTP ' + code + ' su ' + MODELLI[i] + ' — ' + body.slice(0, 150);
+    }
   }
+
+  if (quotaPiena) {
+    return { error: 'quota Gemini esaurita su tutti i modelli gratuiti. Aspetta qualche ' +
+      'minuto e riprova; se persiste, la chiave ha finito il credito gratuito giornaliero.' };
+  }
+  return { error: ultimo };
 }
 
 // =============================================================
