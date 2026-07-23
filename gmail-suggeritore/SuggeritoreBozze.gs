@@ -81,13 +81,6 @@ function onGmailMessageOpen(e) {
   try {
     GmailApp.setCurrentMessageAccessToken(e.gmail.accessToken);
     var message = GmailApp.getMessageById(e.gmail.messageId);
-    var thread = message.getThread();
-
-    if (_esisteBozzaNelThread(thread.getId())) {
-      return [_scheda('Bozza già pronta 👇',
-        'C\'è già una bozza in fondo a questa conversazione. Rileggila e invia tu. ' +
-        'Per rigenerarla, cancella prima la vecchia bozza e riapri il componente.')];
-    }
 
     var apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
     if (!apiKey) {
@@ -143,11 +136,20 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
     payload: JSON.stringify(payload), muteHttpExceptions: true
   };
 
+  // Provo prima il modello che ha già funzionato l'ultima volta (più veloce),
+  // poi gli altri come riserva.
+  var props = PropertiesService.getScriptProperties();
+  var preferito = props.getProperty('MODELLO_OK');
+  var lista = MODELLI.slice();
+  if (preferito && lista.indexOf(preferito) !== -1) {
+    lista = [preferito].concat(lista.filter(function (m) { return m !== preferito; }));
+  }
+
   var ultimo = '';
   var quotaPiena = false;
-  for (var i = 0; i < MODELLI.length; i++) {
+  for (var i = 0; i < lista.length; i++) {
     var url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
-      MODELLI[i] + ':generateContent?key=' + encodeURIComponent(apiKey);
+      lista[i] + ':generateContent?key=' + encodeURIComponent(apiKey);
     var resp = UrlFetchApp.fetch(url, opzioni);
     var code = resp.getResponseCode();
     var body = resp.getContentText();
@@ -158,14 +160,17 @@ function _generaConGemini(apiKey, oggetto, testoMail, nome) {
         var testo = data.candidates && data.candidates[0] && data.candidates[0].content &&
           data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
           data.candidates[0].content.parts[0].text;
-        if (testo) return { testo: testo.trim() };
-        ultimo = 'risposta vuota (' + MODELLI[i] + ')';
+        if (testo) {
+          props.setProperty('MODELLO_OK', lista[i]); // ricordo quello che funziona
+          return { testo: testo.trim() };
+        }
+        ultimo = 'risposta vuota (' + lista[i] + ')';
       } catch (err) {
-        ultimo = 'risposta non leggibile (' + MODELLI[i] + ')';
+        ultimo = 'risposta non leggibile (' + lista[i] + ')';
       }
     } else {
       if (code === 429) quotaPiena = true;
-      ultimo = 'HTTP ' + code + ' su ' + MODELLI[i] + ' — ' + body.slice(0, 150);
+      ultimo = 'HTTP ' + code + ' su ' + lista[i] + ' — ' + body.slice(0, 150);
     }
   }
 
@@ -200,16 +205,6 @@ function _primoNome(from) {
   var primo = nome.split(/\s+/)[0];
   if (primo.length < 2) return '';
   return primo.charAt(0).toUpperCase() + primo.slice(1);
-}
-
-function _esisteBozzaNelThread(threadId) {
-  try {
-    var drafts = GmailApp.getDrafts();
-    for (var i = 0; i < drafts.length; i++) {
-      try { if (drafts[i].getMessage().getThread().getId() === threadId) return true; } catch (e) {}
-    }
-  } catch (e) {}
-  return false;
 }
 
 function _scheda(titolo, testo) {
