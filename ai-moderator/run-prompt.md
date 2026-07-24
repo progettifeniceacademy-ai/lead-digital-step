@@ -49,6 +49,11 @@ community non può rispondere.
 **Autore:** il connettore Circle è collegato come Guido (admin), quindi post e
 commenti risultano già a suo nome. Nessun accorgimento speciale serve più.
 
+**Risposte annidate:** Circle ammette un solo livello di annidamento. Per
+rispondere a un commento che è già una risposta, usa come `parent_comment_id` il
+commento **radice** del thread (il top-level), non la risposta stessa: usare
+l'id di una risposta di secondo livello dà errore "Not found".
+
 ---
 
 ## Come arriva l'approvazione a te (Federico)
