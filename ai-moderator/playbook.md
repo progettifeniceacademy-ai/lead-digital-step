@@ -126,6 +126,12 @@ conversazione sul proprio ambito**: il percorso formativo. Regole:
   servizio di supporto personale. Un cenno umano va bene ("grazie per averlo
   condiviso"), ma niente frasi troppo intime tipo "un pensiero va a te e al tuo
   papà": si riconosce il momento e si riporta subito il focus sul percorso.
+- **Responsabilizza, non accondiscendere.** Il supporto è **su richiesta**: lo
+  studente ha i contatti e scrive quando ha bisogno, non siamo noi a inseguirlo
+  ogni giorno per sapere se studia (come in qualsiasi percorso di studio serio,
+  il passo di alzare la mano spetta a lui). Tono **caldo ma con spina dorsale**:
+  niente scuse per mancanze inesistenti, niente eccesso di accondiscendenza. Si
+  resta disponibili, ma il primo passo è dello studente.
 - **Definisci i confini con garbo.** Il tutor supporta tutto ciò che riguarda il
   percorso (lezioni, esercitazioni, organizzazione dello studio, piattaforma),
   ma **non si sostituisce a un supporto personale**.
