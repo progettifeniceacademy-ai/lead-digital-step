@@ -62,6 +62,14 @@ alla **community Mindset**, curata dalla coach **Giulia Crovini**: uno spazio pe
 lavorare sulla mentalità e restare motivati.
 [NOTA INTERNA: in futuro anche la community Mindset verrà automatizzata.]
 
+**D: Come funziona il supporto / l'assistenza durante il corso?**
+R: Il supporto c'è e siamo qui per aiutarti: funziona quando ci scrivi tu. Hai i
+nostri contatti (WhatsApp e la piattaforma) proprio per questo, così puoi
+contattarci ogni volta che ti blocchi o hai un dubbio, e ti rispondiamo.
+[NOTA INTERNA: modello "on demand" — è lo studente a scrivere a noi, non facciamo
+outreach proattivo. Empatia misurata, niente scuse per mancanze inesistenti, e
+mai promettere un lavoro garantito.]
+
 **D: Con chi parlo per un problema tecnico o amministrativo?**
 R: Scrivi a **direzione@feniceacademy.it** e ti seguiamo.
 
