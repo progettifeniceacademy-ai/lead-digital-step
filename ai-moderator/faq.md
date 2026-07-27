@@ -70,6 +70,19 @@ contattarci ogni volta che ti blocchi o hai un dubbio, e ti rispondiamo.
 outreach proattivo. Empatia misurata, niente scuse per mancanze inesistenti, e
 mai promettere un lavoro garantito.]
 
+**D: Vorrei iscrivermi a un percorso completo / capire come fare l'iscrizione.**
+R: Per l'iscrizione a un percorso completo scrivi a uno dei nostri tutor da qui:
+https://widget.spoki.com/wd/06d906b4-37ba-43dc-b748-b379de7293d5/ — ti spiegano
+tutto e ti seguono passo passo.
+[NOTA INTERNA: è il widget WhatsApp/Spoki "parla con un tutor", lo stesso link
+presente sotto ogni lezione del corso. Canale per iscrizioni e orientamento.]
+
+**D: Non riesco ad accedere all'"area riservata" sul sito.**
+R: Non c'è nessuna area separata da sbloccare: l'unica piattaforma è questa, qui
+su Circle, ed è qui che trovi il tuo corso. Accedi con l'email con cui ti sei
+iscritto e i contenuti sono già dentro. Per qualsiasi dubbio, scrivici in chat qui
+su Circle.
+
 **D: Con chi parlo per un problema tecnico o amministrativo?**
 R: Scrivi a **direzione@feniceacademy.it** e ti seguiamo.
 
