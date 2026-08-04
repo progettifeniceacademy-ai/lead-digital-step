@@ -20,13 +20,17 @@ spiega come funziona quel percorso. Parti da lì e hai subito la strada chiara.
 R: Nessuna scadenza: le lezioni **restano sempre disponibili** e le puoi rivedere
 **quante volte vuoi**, al tuo ritmo.
 
-**D: Non riesco ad accedere a un corso / non vedo un contenuto. Cosa faccio?**
-R: Scrivici un **messaggio in chat qui dentro Circle** e ti aiutiamo.
-Solo se proprio non riuscissi a contattarci via chat, come ultima spiaggia puoi
-scriverci su **WhatsApp al +39 388 807 4498**.
-[NOTA INTERNA: preferire sempre la chat interna. Il numero WhatsApp è un fallback:
-Guido lo dà solo se serve davvero e, quando possibile, in messaggio privato, non
-in un post pubblico.]
+**D: Ho un dubbio o una domanda sulle lezioni / sul corso. A chi scrivo?**
+R: Per tutto ciò che riguarda lezioni, studio e contenuti si scrive **solo ed
+esclusivamente qui sulla piattaforma Circle**, nelle chat. Ogni corso ha il suo
+referente, che trovi tra i contatti in chat:
+- **Project Manager → Luca Facciolo**
+- **Social Media Manager → Gloria Tomaini**
+- **Tutti gli altri percorsi → il contatto Fenice Academy** (sempre dentro Circle)
+[NOTA INTERNA: niente WhatsApp per la didattica. Il canale è la chat interna di
+Circle, indirizzando al referente del corso. Per i percorsi non ancora coperti da
+un referente dedicato, si usa il contatto Fenice Academy dentro Circle. (Il post
+pinnato del video di benvenuto cita ancora Marta su WhatsApp: va allineato.)]
 
 ## Percorso e certificazioni
 
@@ -63,9 +67,10 @@ lavorare sulla mentalità e restare motivati.
 [NOTA INTERNA: in futuro anche la community Mindset verrà automatizzata.]
 
 **D: Come funziona il supporto / l'assistenza durante il corso?**
-R: Il supporto c'è e siamo qui per aiutarti: funziona quando ci scrivi tu. Hai i
-nostri contatti (WhatsApp e la piattaforma) proprio per questo, così puoi
-contattarci ogni volta che ti blocchi o hai un dubbio, e ti rispondiamo.
+R: Il supporto c'è e siamo qui per aiutarti: funziona quando ci scrivi tu, qui
+sulla piattaforma. Per i dubbi sulle lezioni scrivi al referente del tuo corso in
+chat (vedi sopra); per le questioni amministrative all'amministrazione. Così ogni
+volta che ti blocchi sai a chi rivolgerti e ti rispondiamo.
 [NOTA INTERNA: modello "on demand" — è lo studente a scrivere a noi, non facciamo
 outreach proattivo. Empatia misurata, niente scuse per mancanze inesistenti, e
 mai promettere un lavoro garantito.]
@@ -83,12 +88,11 @@ su Circle, ed è qui che trovi il tuo corso. Accedi con l'email con cui ti sei
 iscritto e i contenuti sono già dentro. Per qualsiasi dubbio, scrivici in chat qui
 su Circle.
 
-**D: Con chi parlo per un problema tecnico o amministrativo?**
-R: Scrivi a **direzione@feniceacademy.it** e ti seguiamo.
-
-**D: Rimborsi, pagamenti, fatture?**
-R: Sempre a **direzione@feniceacademy.it**: se ne occupa **Giulia**
-(amministrazione).
+**D: Questioni amministrative o finanziarie (rimborsi, pagamenti, fatture, rateizzazioni, contratti)?**
+R: Se ne occupa l'**amministrazione (Giulia)**. La contatti a
+**direzione@feniceacademy.it** oppure **giuliafeniceacademy@gmail.com**, o al
+numero **+39 392 338 2640**. Sono gli unici contatti per amministrazione e
+questioni finanziarie.
 
 **D: Come funzionano le call / il coaching con Giulia?**
 R: Puoi prenotare una **prima coaching gratuita** con Giulia qui:
