@@ -54,6 +54,11 @@ rispondere a un commento che è già una risposta, usa come `parent_comment_id` 
 commento **radice** del thread (il top-level), non la risposta stessa: usare
 l'id di una risposta di secondo livello dà errore "Not found".
 
+**Formattazione dei commenti:** nel campo `body` gli a-capo con newline vengono
+compattati (il testo si attacca: "rivolgerti.Per..."). Per avere paragrafi
+separati e leggibili, scrivi il body in **HTML con i tag `<p>...</p>`** attorno a
+ogni paragrafo. Vale solo per i commenti su più righe.
+
 ---
 
 ## Come arriva l'approvazione a te (Federico)
