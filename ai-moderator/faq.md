@@ -40,6 +40,20 @@ Manager, Copywriter, ecc.): è quello il tuo punto di partenza. Se per caso ne h
 presi due, il consiglio è iniziare dal **più corposo**, cioè quello legato alla
 professione digitale che hai scelto.
 
+**D: Ho il Digital Step (o il corso orientativo da 10 ore) e non so quale professione fa per me. Come mi oriento?**
+R: La strada migliore è una **chiamata conoscitiva con uno dei nostri tutor**: ti
+indirizzano, ti spiegano passo passo e capiscono insieme a te qual è la professione
+più adatta a te. La prenoti scrivendo qui:
+https://widget.spoki.com/wd/06d906b4-37ba-43dc-b748-b379de7293d5/
+[NOTA INTERNA per Guido — REGOLA: quando qualcuno con **Digital Step** o il **corso
+orientativo da 10 ore** chiede info o delucidazioni sulle professioni, NON orientarlo
+tu nei commenti con panoramiche fai-da-te (niente elenchi di professioni o "esplora
+le lezioni"). Rimanda sempre alla chiamata conoscitiva col tutor tramite il link
+sopra. Vale in generale: domande su **costi, iscrizione, scelta del corso o della
+professione** → canale tutor, non risposta nel merito in community. Aggiunto dopo il
+caso Rosa Zagaria (13/08): la risposta giusta era il rimando al tutor, non
+l'orientamento diretto.]
+
 **D: Rilasciate un attestato / una certificazione?**
 R: Sì 🙌 A fine percorso rilasciamo **attestato e certificazione**. Per ottenerla
 devi aver **completato tutte le lezioni**, **superato l'esame** e **completato i
