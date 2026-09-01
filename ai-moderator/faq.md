@@ -40,6 +40,12 @@ Indicazione di Federico: **empatia prima di tutto**, niente difese.
 - Rimandare a **Paolo**: lo risente con calma, capisce background e obiettivi, valuta insieme
   a lei/lui un eventuale cambio corso. Chiedere recapito + momento comodo per il ricontatto.
 
+## Materiale didattico mancante in una lezione
+Se uno studente segnala che in una lezione manca il materiale/le slide: di norma è un
+**errore di caricamento**, non una scelta. Il team (Fenice Academy srl) provvede a caricarlo.
+Ringraziare la segnalazione, rassicurare, non inventare motivazioni. (Rif. lezione "LEAD",
+2° modulo Copywriter, 31/08.)
+
 ### Caso 31/08 — Alessandro Colussi (privato)
 Domanda: a chi sono rivolti i Corsi ABC + se il "materiale scaricabile a pagamento" del
 corso PM (acquistato al prezzo maggiore) è incluso.
