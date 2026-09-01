@@ -26,6 +26,20 @@ Flusso confermato: rispondere volentieri, con tono caldo, e offrire **due opzion
 2. lasciare il numero → viene contattato **in giornata** da un tutor.
 Adattare l'incipit alla professione d'interesse (es. Lettere → copywriting: scrittura come punto di forza).
 
+## Benvenuto a nuovo studente che si presenta (fascia verde)
+Tono caldo, valorizzare il background della persona e collegarlo alla professione scelta;
+richiamare la motivazione dichiarata; ricordare "un modulo alla volta, senza fretta";
+chiudere con disponibilità ("siamo qui, scrivici pure").
+Attenzione gender: se il nome non fa capire come la persona si identifica, usare formule
+**neutre** (es. "che bello averti qui", "accompagnarti"), evitando accordi maschili/femminili.
+
+## Studente scoraggiato / pentito dell'acquisto (fascia ROSSA)
+Indicazione di Federico: **empatia prima di tutto**, niente difese.
+- Rassicurare: non ha buttato via niente, non è un caso perso.
+- **Non citare il rimborso.** Focus sul **cambio corso**.
+- Rimandare a **Paolo**: lo risente con calma, capisce background e obiettivi, valuta insieme
+  a lei/lui un eventuale cambio corso. Chiedere recapito + momento comodo per il ricontatto.
+
 ### Caso 31/08 — Alessandro Colussi (privato)
 Domanda: a chi sono rivolti i Corsi ABC + se il "materiale scaricabile a pagamento" del
 corso PM (acquistato al prezzo maggiore) è incluso.
