@@ -26,6 +26,13 @@ Flusso confermato: rispondere volentieri, con tono caldo, e offrire **due opzion
 2. lasciare il numero → viene contattato **in giornata** da un tutor.
 Adattare l'incipit alla professione d'interesse (es. Lettere → copywriting: scrittura come punto di forza).
 
+## Licenze software (corso Graphic Designer)
+Le licenze dei software (Photoshop, Illustrator, InDesign, Premiere, After Effects, Lightroom)
+**NON sono incluse** nel percorso/ticket. Cosa consigliamo agli studenti:
+- Partire con **programmi gratuiti** simili a quelli spiegati nelle lezioni, es. **Photopea** al posto di Photoshop.
+- In alternativa, siti per **condividere/dividere gli abbonamenti**, es. **togetherprice.com**.
+- Nota: i software servono un po' **più avanti**, dopo aver concluso la parte di teoria, quindi c'è tempo per organizzarsi.
+
 ## Benvenuto a nuovo studente che si presenta (fascia verde)
 Tono caldo, valorizzare il background della persona e collegarlo alla professione scelta;
 richiamare la motivazione dichiarata; ricordare "un modulo alla volta, senza fretta";
