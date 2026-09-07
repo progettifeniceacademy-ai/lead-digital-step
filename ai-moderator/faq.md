@@ -26,6 +26,17 @@ Flusso confermato: rispondere volentieri, con tono caldo, e offrire **due opzion
 2. lasciare il numero → viene contattato **in giornata** da un tutor.
 Adattare l'incipit alla professione d'interesse (es. Lettere → copywriting: scrittura come punto di forza).
 
+## Come iniziare / struttura di un corso completo (a pagamento)
+Si accede al proprio corso e si parte dalle lezioni in ordine. Dentro c'è tutto, esattamente
+come sulla vecchia piattaforma. Completati tutti i passaggi, compare direttamente il **link
+per l'esame** e successivamente i **progetti** pratici. Si può seguire ai propri tempi (es. la sera).
+
+### Referenti didattici per percorso (dubbi sulle lezioni, chat interna di Circle)
+- Social Media Manager: **Gloria Tomaini**
+- Project Manager e Data Analyst: **Luca Facciolo**
+- Copywriter e Graphic Designer: **Fenice Academy srl**
+(Dubbi amministrativi: direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640)
+
 ## Corso gratuito da 10 ore (come funziona)
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
 - Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
