@@ -26,6 +26,14 @@ Flusso confermato: rispondere volentieri, con tono caldo, e offrire **due opzion
 2. lasciare il numero → viene contattato **in giornata** da un tutor.
 Adattare l'incipit alla professione d'interesse (es. Lettere → copywriting: scrittura come punto di forza).
 
+## Corso gratuito da 10 ore (come funziona)
+- Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
+- Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
+  professioni digitali di cui si parla dentro le 10 ore.
+- Funzionamento: si guardano le **videolezioni quando si vuole**, ai propri tempi (si accede
+  alla propria area corsi con la stessa email dell'iscrizione e si parte dalla prima lezione).
+- Finite tutte le videolezioni, si può scrivere a **corsi@feniceacademy.it** per richiedere l'**attestato**.
+
 ## Licenze software (corso Graphic Designer)
 Le licenze dei software (Photoshop, Illustrator, InDesign, Premiere, After Effects, Lightroom)
 **NON sono incluse** nel percorso/ticket. Cosa consigliamo agli studenti:
