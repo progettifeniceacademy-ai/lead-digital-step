@@ -34,6 +34,12 @@ Adattare l'incipit alla professione d'interesse (es. Lettere → copywriting: sc
   alla propria area corsi con la stessa email dell'iscrizione e si parte dalla prima lezione).
 - Finite tutte le videolezioni, si può scrivere a **corsi@feniceacademy.it** per richiedere l'**attestato**.
 
+## "Corso privato, serve un invito" (corsi bloccati)
+Se uno studente vede i corsi bloccati con il messaggio "corso privato, serve un invito":
+sono i **corsi a pagamento**. Chi ha fatto l'accesso per il **corso gratuito da 10 ore** vedrà
+nella libreria tutti i corsi bloccati **tranne** la formazione gratuita da 10 ore, che si trova
+sempre all'interno della libreria dei corsi. Va aperta da lì.
+
 ## Licenze software (corso Graphic Designer)
 Le licenze dei software (Photoshop, Illustrator, InDesign, Premiere, After Effects, Lightroom)
 **NON sono incluse** nel percorso/ticket. Cosa consigliamo agli studenti:
