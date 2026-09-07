@@ -71,6 +71,9 @@ Indicazione di Federico: **empatia prima di tutto**, niente difese.
 - **Non citare il rimborso.** Focus sul **cambio corso**.
 - Rimandare a **Paolo**: lo risente con calma, capisce background e obiettivi, valuta insieme
   a lei/lui un eventuale cambio corso. Chiedere recapito + momento comodo per il ricontatto.
+- Se torna dicendo che **non è stata contattata** e insiste sul rimborso: scusarsi, **non**
+  promettere né negare il rimborso, verificare con Paolo e dare una **finestra concreta di
+  richiamo** (es. "ti chiama tra oggi e domani"). Il tema rimborso/cambio si chiarisce nella call.
 
 ## Materiale didattico mancante in una lezione
 Se uno studente segnala che in una lezione manca il materiale/le slide: di norma è un
