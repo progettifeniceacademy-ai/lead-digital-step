@@ -68,6 +68,18 @@ Le licenze dei software (Photoshop, Illustrator, InDesign, Premiere, After Effec
 - In alternativa, siti per **condividere/dividere gli abbonamenti**, es. **togetherprice.com**.
 - Nota: i software servono un po' **più avanti**, dopo aver concluso la parte di teoria, quindi c'è tempo per organizzarsi.
 
+## Esito esame, revisione e punteggio
+Arrivano **tutti via mail**. Se non si ricevono: controllare **spam** e la scheda **Promozioni**
+di Gmail. Se non c'è nulla, scrivere a **corsi@feniceacademy.it**.
+
+## Mail che finisce nella scheda "Promozioni" di Gmail
+Non è un'impostazione controllabile da Fenice: è **Gmail** che smista in automatico le mail
+nelle schede (Principale / Promozioni / Aggiornamenti), lato destinatario. Ringraziare la
+segnalazione, chiarire che non dipende da noi, invitare a **scriverci quando capita** così
+verifichiamo. Suggerimento utile al destinatario: spostare la mail in "Principale" o aggiungere
+il nostro indirizzo ai contatti, così le successive arrivano dritte. (Dopo aver ricevuto tutto,
+lo studente prosegue con la **pratica**, seguito da **Michela**.)
+
 ## Benvenuto a nuovo studente che si presenta (fascia verde)
 Tono caldo, valorizzare il background della persona e collegarlo alla professione scelta;
 richiamare la motivazione dichiarata; ricordare "un modulo alla volta, senza fretta";
