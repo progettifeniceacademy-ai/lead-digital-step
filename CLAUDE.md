@@ -10,6 +10,7 @@
 - **Niente virgola prima del nome**: scrivere "Ciao Francesca" (non "Ciao, Francesco"), "In bocca al lupo Francesca".
 - Tono **WhatsApp / tra amici**: naturale, diretto, caldo. Niente costruzioni da AI.
 - Vale il tono già stabilito insieme (empatico, incoraggiante, mai artificioso).
+- **Niente aperture/ringraziamenti troppo effusivi** ("grazie di cuore", "grazie mille per…"): sono "too much". Andare **dritti al punto**, essenziali. L'empatia sì, ma senza enfasi da AI.
 
 ## Knowledge base — risposte ricorrenti (confermate da Federico)
 
