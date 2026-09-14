@@ -16,6 +16,16 @@ per dare una panoramica del mestiere. **Non fanno parte** dei percorsi completi 
 - **NON incluso:** i **materiali extra** → extra e facoltativi, si acquistano a parte,
   quindi **non rientrano nel percorso**. Dirlo in modo diretto.
 
+### PDF integrati a pagamento (risposta confermata da Federico, 14/09)
+- Di solito la presenza di materiali extra a pagamento **si accenna in call** all'iscrizione.
+  Se non è avvenuto: scusarsi e informare la persona con cui lo studente ha fatto l'iscrizione,
+  così non riaccade.
+- I **PDF** sono extra e facoltativi: documenti pronti all'uso o guide. **Nulla in più, a livello
+  teorico, di ciò che si è già studiato.** Non sono indispensabili per lo studio; servono solo a
+  **risparmiare tempo** a chi vuole.
+- Come parlare col tutor: chat interna di Circle, scrivendo al referente del proprio percorso
+  (vedi "Referenti didattici" più sotto).
+
 ## Link ufficiali
 - **Spoki (widget contatto per lead interessati):**
   https://widget.spoki.com/wd/06d906b4-37ba-43dc-b748-b379de7293d5/
