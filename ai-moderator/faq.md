@@ -54,6 +54,8 @@ apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbi
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
 - Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
   professioni digitali di cui si parla dentro le 10 ore.
+- **Dove trovarlo:** è già dentro la piattaforma. Andare nell'**area corsi** e **scorrere** fino
+  al corso "**10 ore di formazione gratuita**", poi accedere e guardarlo quando si vuole.
 - Funzionamento: si guardano le **videolezioni quando si vuole**, ai propri tempi (si accede
   alla propria area corsi con la stessa email dell'iscrizione e si parte dalla prima lezione).
 - Finite tutte le videolezioni, si può scrivere a **corsi@feniceacademy.it** per richiedere l'**attestato**.
