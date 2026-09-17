@@ -101,12 +101,12 @@ Caso pulito, lo studente si è accorto presto che un altro percorso è più nell
 - Eventualmente **passare dalla direzione** per un confronto.
 (Diverso dal caso "scoraggiato/pentito" che va a Paolo, e dalla richiesta di rimborso che va all'amministrazione.)
 
-## Recesso entro i 14 giorni di legge (diritto di recesso)
-Se lo studente chiede di **recedere entro i 14 giorni** previsti dalla legge: **è possibile**.
-Indicazione di Federico: confermare che si può e **indirizzare all'amministrazione** per la
-procedura, dando i contatti (direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640).
-(Diverso dalla richiesta di rimborso **fuori termini / con finanziamento** qui sotto, dove il
-rimborso non è possibile: lì l'amministrazione valuta solo caso per caso.)
+## Richiesta di recesso (anche "entro i 14 giorni di legge")
+Indicazione di Federico: **il recesso NON è possibile, mai e in nessun caso** (nemmeno entro
+i 14 giorni). Dirlo in modo chiaro e diretto, senza promettere nulla. Si può comunque
+**indirizzare all'amministrazione** per eventuali chiarimenti sulla propria posizione
+(direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640), ma senza far
+intendere che il recesso sia praticabile.
 
 ## Richiesta di rimborso / interruzione del pagamento (fascia ROSSA)
 Indicazione di Federico (caso Fabrizio, percorso a pagamento spesso con finanziamento):
