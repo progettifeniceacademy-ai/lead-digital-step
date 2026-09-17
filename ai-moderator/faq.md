@@ -87,6 +87,16 @@ chiudere con disponibilità ("siamo qui, scrivici pure").
 Attenzione gender: se il nome non fa capire come la persona si identifica, usare formule
 **neutre** (es. "che bello averti qui", "accompagnarti"), evitando accordi maschili/femminili.
 
+## Richiesta di rimborso / interruzione del pagamento (fascia ROSSA)
+Indicazione di Federico (caso Fabrizio, percorso a pagamento spesso con finanziamento):
+- Empatia sincera per la situazione (spesso problemi personali/familiari), **senza enfasi**.
+- **Il rimborso non è possibile**, così come **non è possibile interrompere il pagamento**,
+  soprattutto quando il percorso è stato attivato tramite **finanziamento (finanziaria)**.
+- Non promettere nulla. L'**unica cosa** che possiamo fare è **indirizzare all'amministrazione**,
+  che valuta ogni situazione **caso per caso** (direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640).
+- Diverso dal caso "scoraggiato" qui sotto: là si rimanda a Paolo per un eventuale cambio corso;
+  qui è una richiesta formale di rimborso/stop pagamento → amministrazione.
+
 ## Studente scoraggiato / pentito dell'acquisto (fascia ROSSA)
 Indicazione di Federico: **empatia prima di tutto**, niente difese.
 - Rassicurare: non ha buttato via niente, non è un caso perso.
