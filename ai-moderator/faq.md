@@ -92,6 +92,15 @@ chiudere con disponibilità ("siamo qui, scrivici pure").
 Attenzione gender: se il nome non fa capire come la persona si identifica, usare formule
 **neutre** (es. "che bello averti qui", "accompagnarti"), evitando accordi maschili/femminili.
 
+## Richiesta di cambio corso (es. da SMM a Video Editor)
+Caso pulito, lo studente si è accorto presto che un altro percorso è più nelle sue corde
+(nessun pentimento/rimborso). Indicazione di Federico:
+- Dirgli che ha fatto bene a scrivere ed è positivo essersene accorto subito.
+- Consigliargli di **contattare la persona con cui ha fatto l'ingresso in accademia**, così da
+  valutare insieme la scelta migliore.
+- Eventualmente **passare dalla direzione** per un confronto.
+(Diverso dal caso "scoraggiato/pentito" che va a Paolo, e dalla richiesta di rimborso che va all'amministrazione.)
+
 ## Richiesta di rimborso / interruzione del pagamento (fascia ROSSA)
 Indicazione di Federico (caso Fabrizio, percorso a pagamento spesso con finanziamento):
 - Empatia sincera per la situazione (spesso problemi personali/familiari), **senza enfasi**.
