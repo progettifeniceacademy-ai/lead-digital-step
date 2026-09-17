@@ -46,6 +46,9 @@ per l'esame** e successivamente i **progetti** pratici. Si può seguire ai propr
 - Project Manager e Data Analyst: **Luca Facciolo**
 - Copywriter e Graphic Designer: **Fenice Academy srl**
 (Dubbi amministrativi: direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640)
+**Nota (istruzione di Federico):** non è previsto che sia Fenice a contattare proattivamente lo
+studente per sapere come procede il corso. I contatti dei tutor sono indicati **sulla piattaforma
+apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbio o domanda.
 
 ## Corso gratuito da 10 ore (come funziona)
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
