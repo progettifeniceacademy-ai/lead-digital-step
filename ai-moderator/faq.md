@@ -45,7 +45,7 @@ per l'esame** e successivamente i **progetti** pratici. Si può seguire ai propr
 - Social Media Manager: **Gloria Tomaini**
 - Project Manager e Data Analyst: **Luca Facciolo**
 - Copywriter e Graphic Designer: **Fenice Academy srl**
-(Dubbi amministrativi: direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640)
+(Dubbi amministrativi: direzione@feniceacademy.it | 392 338 2640)
 **Nota (istruzione di Federico):** non è previsto che sia Fenice a contattare proattivamente lo
 studente per sapere come procede il corso. I contatti dei tutor sono indicati **sulla piattaforma
 apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbio o domanda.
@@ -105,7 +105,7 @@ Caso pulito, lo studente si è accorto presto che un altro percorso è più nell
 Indicazione di Federico: **il recesso NON è possibile, mai e in nessun caso** (nemmeno entro
 i 14 giorni). Dirlo in modo chiaro e diretto, senza promettere nulla. Si può comunque
 **indirizzare all'amministrazione** per eventuali chiarimenti sulla propria posizione
-(direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640), ma senza far
+(direzione@feniceacademy.it | 392 338 2640), ma senza far
 intendere che il recesso sia praticabile.
 
 ## Richiesta di rimborso / interruzione del pagamento (fascia ROSSA)
@@ -114,7 +114,7 @@ Indicazione di Federico (caso Fabrizio, percorso a pagamento spesso con finanzia
 - **Il rimborso non è possibile**, così come **non è possibile interrompere il pagamento**,
   soprattutto quando il percorso è stato attivato tramite **finanziamento (finanziaria)**.
 - Non promettere nulla. L'**unica cosa** che possiamo fare è **indirizzare all'amministrazione**,
-  che valuta ogni situazione **caso per caso** (direzione@feniceacademy.it | giuliafeniceacademy@gmail.com | 392 338 2640).
+  che valuta ogni situazione **caso per caso** (direzione@feniceacademy.it | 392 338 2640).
 - Diverso dal caso "scoraggiato" qui sotto: là si rimanda a Paolo per un eventuale cambio corso;
   qui è una richiesta formale di rimborso/stop pagamento → amministrazione.
 
