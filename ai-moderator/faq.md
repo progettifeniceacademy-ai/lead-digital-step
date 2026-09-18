@@ -50,6 +50,10 @@ per l'esame** e successivamente i **progetti** pratici. Si può seguire ai propr
 studente per sapere come procede il corso. I contatti dei tutor sono indicati **sulla piattaforma
 apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbio o domanda.
 
+## Tempistica dei 4 progetti pratici (dopo l'esame)
+I progetti arrivano **uno ogni 7 giorni**, quindi si ha circa **una settimana per svolgere ciascuno**.
+È **flessibile**: se servono un paio di giorni in più nessun problema, semplicemente slitta la consegna.
+
 ## Corso gratuito da 10 ore (come funziona)
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
 - Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
