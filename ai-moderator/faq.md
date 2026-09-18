@@ -132,6 +132,11 @@ Indicazione di Federico: **empatia prima di tutto**, niente difese.
   promettere né negare il rimborso, verificare con Paolo e dare una **finestra concreta di
   richiamo** (es. "ti chiama tra oggi e domani"). Il tema rimborso/cambio si chiarisce nella call.
 
+## Lezione che non salva il punto di ripresa (riparte da 0)
+Indicazione di Federico: purtroppo è un **limite della piattaforma**. Si può **segnalare al
+supporto di Circle**, ma nel frattempo consigliare allo studente di **segnarsi il punto** in cui
+arriva così da **avanzare manualmente** il video quando riprende.
+
 ## Materiale didattico mancante in una lezione
 Se uno studente segnala che in una lezione manca il materiale/le slide: di norma è un
 **errore di caricamento**, non una scelta. Il team (Fenice Academy srl) provvede a caricarlo.
