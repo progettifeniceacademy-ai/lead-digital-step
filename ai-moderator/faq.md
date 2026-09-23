@@ -137,6 +137,17 @@ Indicazione di Federico: purtroppo è un **limite della piattaforma**. Si può *
 supporto di Circle**, ma nel frattempo consigliare allo studente di **segnarsi il punto** in cui
 arriva così da **avanzare manualmente** il video quando riprende.
 
+## Reclamo su slide/materiali mancanti (corso CW) — fatti confermati da Federico
+- Le **slide del Modulo 5** sono state **caricate**: bastava chiedere, ora ci sono.
+- I **materiali extra** sono un **extra** e **non sono fondamentali** per lo studio (lo si dice
+  anche nella **call iniziale**). Il percorso si segue e si completa anche senza.
+- In alcune lezioni **non ci sono slide** perché il **docente spiega condividendo lo schermo**:
+  può quindi capitare che per quella lezione non ci sia una slide a parte.
+- Come **supporto scritto/cartaceo** c'è l'**ebook**, consegnato **a tutti all'iscrizione** del corso,
+  da cui si può studiare. Se lo studente non lo trova o non gli è arrivato, può **scriverci in privato**.
+- Sul **tono**: a chi segnala in modo brusco, rispondere in modo **garbato** facendo notare con
+  serenità che le segnalazioni sono benvenute ma conta il modo con cui si fanno (c'è modo e modo).
+
 ## Materiale didattico mancante in una lezione
 Se uno studente segnala che in una lezione manca il materiale/le slide: di norma è un
 **errore di caricamento**, non una scelta. Il team (Fenice Academy srl) provvede a caricarlo.
