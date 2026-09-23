@@ -145,8 +145,10 @@ arriva così da **avanzare manualmente** il video quando riprende.
   può quindi capitare che per quella lezione non ci sia una slide a parte.
 - Come **supporto scritto/cartaceo** c'è l'**ebook**, consegnato **a tutti all'iscrizione** del corso,
   da cui si può studiare. Se lo studente non lo trova o non gli è arrivato, può **scriverci in privato**.
-- Sul **tono**: a chi segnala in modo brusco, rispondere in modo **garbato** facendo notare con
-  serenità che le segnalazioni sono benvenute ma conta il modo con cui si fanno (c'è modo e modo).
+- Sul **tono** (indicazione di Federico, caso Cristina 23/09): anche con segnalazioni scritte in
+  modo brusco, **non rimproverare** e non fare note passivo-aggressive sul modo. Rispondere nel
+  merito con tono positivo, valorizzare la segnalazione ("sono utilissime, ci aiutano a migliorare")
+  e invitare a scrivere anche **in privato** per una risposta più celere.
 
 ## Materiale didattico mancante in una lezione
 Se uno studente segnala che in una lezione manca il materiale/le slide: di norma è un
