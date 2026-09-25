@@ -54,6 +54,14 @@ apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbi
 I progetti arrivano **uno ogni 7 giorni**, quindi si ha circa **una settimana per svolgere ciascuno**.
 È **flessibile**: se servono un paio di giorni in più nessun problema, semplicemente slitta la consegna.
 
+## Addebito di 9€/mese (abbonamento community Mindset)
+Confermato da Federico: i **9€/mese** sono l'**abbonamento alla community Mindset** (sulla piattaforma),
+**accettato al momento della firma del contratto**. All'iscrizione (l'euro iniziale) è specificato
+che quell'euro **regala 90 giorni gratuiti**, dopodiché parte la quota di **9€/mese**.
+È **facoltativo** e disdicibile:
+- iscritti **prima di luglio 2026** → mandare una mail a **direzione@feniceacademy.it**;
+- altrimenti si disdice dalla **propria area personale su Circle**: icona profilo in alto a destra → **Fatturazione e pagamenti**.
+
 ## Corso gratuito da 10 ore (come funziona)
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
 - Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
