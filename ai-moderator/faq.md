@@ -65,6 +65,11 @@ che quell'euro **regala 90 giorni gratuiti**, dopodiché parte la quota di **9�
 - iscritti **prima di luglio 2026** → mandare una mail a **direzione@feniceacademy.it**;
 - altrimenti si disdice dalla **propria area personale su Circle**: icona profilo in alto a destra → **Fatturazione e pagamenti**.
 
+## Persona molto "titolata" che cerca pratica (ha già preso il corso 10h)
+Indicazione di Federico: se ha già preso il corso da 10 ore, dirle semplicemente di **iniziarlo**,
+senza pensarci troppo. Poi, se una **professione in particolare** la appassiona, la **richiamiamo**
+e si vede insieme come **affiancarle un tutor** per la parte pratica.
+
 ## Corso gratuito da 10 ore (come funziona)
 - Alla fine del corso da 10 ore **non si paga nulla**, è gratuito.
 - Sarà poi una scelta dello studente se approfondire con un corso più completo su una delle
