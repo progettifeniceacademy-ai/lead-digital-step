@@ -49,6 +49,9 @@ per l'esame** e successivamente i **progetti** pratici. Si può seguire ai propr
 **Nota (istruzione di Federico):** non è previsto che sia Fenice a contattare proattivamente lo
 studente per sapere come procede il corso. I contatti dei tutor sono indicati **sulla piattaforma
 apposta**, così che lo studente possa confrontarsi con loro per qualsiasi dubbio o domanda.
+**Aggiornamento (28/09):** i tutor dei corsi sono **in fase di riaggiornamento** (incluso quello
+da Copywriter). Per ora, per il Copywriter il riferimento resta **Fenice Academy srl** (chat Circle).
+Quando i nuovi tutor saranno assegnati, verrà **comunicato su Circle con un post**.
 
 ## Tempistica dei 4 progetti pratici (dopo l'esame)
 I progetti arrivano **uno ogni 7 giorni**, quindi si ha circa **una settimana per svolgere ciascuno**.
