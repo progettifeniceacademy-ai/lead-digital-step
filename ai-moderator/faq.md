@@ -178,3 +178,11 @@ corso PM (acquistato al prezzo maggiore) è incluso.
 Risposta confermata: ABC = introduttivi venduti a parte; materiale extra = NON incluso
 (è extra/facoltativo); tutto il resto (slide, simulazioni colloqui, revisioni CV, stage +
 attestato MIUR) è compreso nel pacchetto.
+
+## Video di una lezione che si interrompe / si taglia a metà spiegazione
+Se uno studente segnala che il video di una lezione si interrompe prima della fine (es. Viktoriya
+30/09: prima lezione Modulo 1 Graphic Designer, il video si ferma al quarto dei 5 trend e manca il
+quinto): è un possibile **errore di caricamento del video**, non lo si conferma né lo si sistema da
+soli. Risposta (indicazione di Federico): dire che **controlliamo e verifichiamo**, e che per
+segnalazioni del genere può **scriverle direttamente sotto alla lezione** così le vediamo subito.
+Avvisare appena sistemato. Il caricamento/ricarica lo fa il team.
