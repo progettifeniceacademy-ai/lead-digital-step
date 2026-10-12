@@ -186,3 +186,6 @@ quinto): è un possibile **errore di caricamento del video**, non lo si conferma
 soli. Risposta (indicazione di Federico): dire che **controlliamo e verifichiamo**, e che per
 segnalazioni del genere può **scriverle direttamente sotto alla lezione** così le vediamo subito.
 Avvisare appena sistemato. Il caricamento/ricarica lo fa il team.
+
+## Referente didattico percorso Video Editor
+Indicazione di Federico (12/10): il referente del percorso **Video Editor** è **Michela Menichelli**, da contattare nella chat di Circle. (Completa l'elenco del post fissato, che non la indicava: SMM → Gloria Tomaini; PM/Data Analyst → Luca Facciolo; Copywriter/Graphic Designer → Fenice Academy srl; Video Editor → Michela Menichelli.)
