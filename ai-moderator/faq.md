@@ -189,3 +189,11 @@ Avvisare appena sistemato. Il caricamento/ricarica lo fa il team.
 
 ## Referente didattico percorso Video Editor
 Indicazione di Federico (12/10): il referente del percorso **Video Editor** è **Michela Menichelli**, da contattare nella chat di Circle. (Completa l'elenco del post fissato, che non la indicava: SMM → Gloria Tomaini; PM/Data Analyst → Luca Facciolo; Copywriter/Graphic Designer → Fenice Academy srl; Video Editor → Michela Menichelli.)
+
+## Nuova piattaforma: avanzamento azzerato (0%) o corso non visibile dopo la migrazione
+Caso 12/10 (Vilma, Donatella, Elena): dopo il passaggio alla nuova piattaforma alcuni studenti vedevano l'avanzamento a 0% o il corso non visibile (es. Graphic Designer), temendo di dover rifare tutto.
+Indicazione di Federico:
+- **Il corso NON va rivisto**: l'avanzamento resta valido e si può procedere direttamente con l'esame.
+- I corsi non visibili vengono **ripristinati** (es. il corso da Graphic Designer è tornato visibile): si riprende da dove si era rimasti.
+- Se il caso è già stato gestito in privato, dirlo ("ti abbiamo risposto in privato") e confermare comunque nel pubblico per rassicurare.
+Tono: rassicurare, niente panico, non far rifare nulla.
