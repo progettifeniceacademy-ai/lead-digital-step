@@ -197,3 +197,6 @@ Indicazione di Federico:
 - I corsi non visibili vengono **ripristinati** (es. il corso da Graphic Designer è tornato visibile): si riprende da dove si era rimasti.
 - Se il caso è già stato gestito in privato, dirlo ("ti abbiamo risposto in privato") e confermare comunque nel pubblico per rassicurare.
 Tono: rassicurare, niente panico, non far rifare nulla.
+
+## CORREZIONE (13/10) al caso "migrazione nuova piattaforma / avanzamento 0%"
+Federico precisa: NON dire "lo stiamo sistemando". La percentuale che riparte da zero è il **comportamento normale del passaggio** alla nuova piattaforma, già **segnalato sulla vecchia piattaforma per avvisare tutti**. Linea corretta da usare: "è normale, con il passaggio l'avanzamento riparte da zero ma il lavoro non è perso; lo avevamo già segnalato sulla vecchia piattaforma; riprendi da dove avevi interrotto, non devi rifare nulla e puoi procedere con l'esame". (Sostituisce la formulazione precedente che parlava di problema da sistemare.)
