@@ -198,5 +198,18 @@ Indicazione di Federico:
 - Se il caso è già stato gestito in privato, dirlo ("ti abbiamo risposto in privato") e confermare comunque nel pubblico per rassicurare.
 Tono: rassicurare, niente panico, non far rifare nulla.
 
+## Controllare SEMPRE il corso/accesso prima di rispondere (istruzione di Federico, 15/10)
+Prima di scrivere un benvenuto o una risposta, **verificare a quale corso ha davvero accesso** la persona
+(strumento `list_community_member_spaces`). Lo spazio del corso gratuito è **"+10h di formazione gratuita"**
+(space id 2482777).
+- Se ha accesso **solo** alla "+10h di formazione gratuita" (nessun percorso a pagamento): **NON** indirizzarla
+  al referente di uno specifico percorso. Fare un commento che la invita a **sentirsi con un tutor** per capire
+  **quale percorso fa più per lei**.
+- Se ha un **percorso a pagamento** (es. Copywriter, SMM, PM, Graphic Designer, Video Editor, Data Analyst):
+  benvenuto nel suo percorso + referente didattico corretto (vedi "Referenti didattici").
+- **Attenzione alla discrepanza:** quello che la persona scrive nel post ("sono qui per il corso X") può **non**
+  coincidere col corso a cui ha davvero accesso. In caso di mismatch, verificare e non dare per scontato: se serve,
+  girare a Federico invece di indovinare.
+
 ## CORREZIONE (13/10) al caso "migrazione nuova piattaforma / avanzamento 0%"
 Federico precisa: NON dire "lo stiamo sistemando". La percentuale che riparte da zero è il **comportamento normale del passaggio** alla nuova piattaforma, già **segnalato sulla vecchia piattaforma per avvisare tutti**. Linea corretta da usare: "è normale, con il passaggio l'avanzamento riparte da zero ma il lavoro non è perso; lo avevamo già segnalato sulla vecchia piattaforma; riprendi da dove avevi interrotto, non devi rifare nulla e puoi procedere con l'esame". (Sostituisce la formulazione precedente che parlava di problema da sistemare.)
