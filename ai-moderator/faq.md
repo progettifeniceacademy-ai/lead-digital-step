@@ -211,5 +211,12 @@ Prima di scrivere un benvenuto o una risposta, **verificare a quale corso ha dav
   coincidere col corso a cui ha davvero accesso. In caso di mismatch, verificare e non dare per scontato: se serve,
   girare a Federico invece di indovinare.
 
+## Sbloccare un corso a pagamento non visibile (procedura, istruzione di Federico 17/10)
+Quando uno studente con percorso a pagamento non vede più il suo corso dopo la migrazione (caso Giovanni Virdis, Graphic Designer), si **ripristina l'accesso** e poi gli si risponde che è risolto.
+- **NON** funziona aggiungerlo direttamente allo spazio corso (`create_space_member` viene rifiutato: "utente non aggiunto allo spazio").
+- **Funziona** aggiungerlo all'**access group** del corso con `create_access_group_community_member` (email + access_group_id). Poi verificare con `list_community_member_spaces` che lo spazio del corso sia comparso, e solo allora rispondere "risolto".
+- Access group per corso (id): **GD** (Graphic Designer) 134804; **Project Manager** 134808; **Copywriter** 96164; **CORSO SMM** 96073; **Video Editor** 120733; **Come trovare lavoro nel digitale** 121194; **Mindset** 120879; **corso 10h** 107254. (Per gli altri: `list_access_groups`.)
+- Spazi corso a pagamento (id): Graphic Designer 2482762; Project Manager 2482764; Copywriter 2476440; Social Media Manager 2475920; Come trovare lavoro 2564908. Spazio corso gratuito "+10h di formazione gratuita" 2482777.
+
 ## CORREZIONE (13/10) al caso "migrazione nuova piattaforma / avanzamento 0%"
 Federico precisa: NON dire "lo stiamo sistemando". La percentuale che riparte da zero è il **comportamento normale del passaggio** alla nuova piattaforma, già **segnalato sulla vecchia piattaforma per avvisare tutti**. Linea corretta da usare: "è normale, con il passaggio l'avanzamento riparte da zero ma il lavoro non è perso; lo avevamo già segnalato sulla vecchia piattaforma; riprendi da dove avevi interrotto, non devi rifare nulla e puoi procedere con l'esame". (Sostituisce la formulazione precedente che parlava di problema da sistemare.)
